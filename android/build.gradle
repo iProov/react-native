@@ -32,6 +32,7 @@ buildscript {
     if (project == rootProject) {
         repositories {
             google()
+            jcenter()
         }
         dependencies {
             // This should reflect the Gradle plugin version used by
@@ -57,7 +58,7 @@ android {
 
 repositories {
     // ref: https://www.baeldung.com/maven-local-repository
-    mavenLocal()
+    //mavenLocal()
     maven {
         // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
         url "$rootDir/../node_modules/react-native/android"
