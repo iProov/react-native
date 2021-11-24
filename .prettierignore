@@ -1,0 +1,12 @@
+android/
+ios/
+example/android/
+example/ios/
+.prettierrc.js
+.vscode/
+*-test.js
+.eslintrc.js
+.watchmanconfig
+package.json
+*.md
+*.config.js
