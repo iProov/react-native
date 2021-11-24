@@ -76,11 +76,13 @@ repositories {
 
     }
     google()
+    maven { url 'https://raw.githubusercontent.com/iProov/android/master/maven/' }
 }
 
 dependencies {
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules
+    implementation 'com.iproov.sdk:iproov:7.1.0'
 }
 
 def configureReactNativePom(def pom) {
