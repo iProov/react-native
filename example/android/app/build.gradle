@@ -190,6 +190,9 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    // Without this you get java.lang.NoClassDefFoundError: Failed resolution of: Landroidx/swiperefreshlayout/widget/SwipeRefreshLayout;
+    // https://stackoverflow.com/questions/56901873/swiperefreshlayout-error-on-a-react-native-app-after-androidx-migration
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
     if (enableHermes) {
       def hermesPath = "../../node_modules/hermesvm/android/";
