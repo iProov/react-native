@@ -18,12 +18,14 @@ export default class App extends Component<{}> {
     message: '--'
   };
   componentDidMount() {
-    IProovReactNative.sampleMethod('Testing', 123, (message) => {
-      this.setState({
-        status: 'native callback received',
-        message
-      });
-    });
+    // IProovReactNative.sampleMethod('Testing', 123, (message) => {
+    //   this.setState({
+    //     status: 'native callback received',
+    //     message
+    //   });
+    // });
+
+    IProovReactNative.launch();
   }
   render() {
     return (
