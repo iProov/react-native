@@ -77,12 +77,17 @@ repositories {
     }
     google()
     maven { url 'https://raw.githubusercontent.com/iProov/android/master/maven/' }
+    // Retrofit v2.5.0 and okhttp3 logging v 3.12.1 dependencies are only available from Jcenter?
+    jcenter()
 }
 
 dependencies {
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules
     implementation 'com.iproov.sdk:iproov:7.1.0'
+    implementation 'com.iproov.android-api-client:java-retrofit:1.3.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
+    implementation "com.squareup.retrofit2:retrofit:2.5.0"
 }
 
 def configureReactNativePom(def pom) {
