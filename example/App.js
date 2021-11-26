@@ -9,7 +9,7 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View, NativeEventEmitter } from 'react-native';
 import IProovReactNative from 'iproov-react-native';
 
 export default class App extends Component<{}> {
@@ -24,9 +24,35 @@ export default class App extends Component<{}> {
     //     message
     //   });
     // });
-
+    registerListeners()
     IProovReactNative.launch();
   }
+
+  fun registerListeners() {
+    const eventEmitter = new NativeEventEmitter(IProovReactNative);
+    //const eventEmitter = new NativeEventEmitter(NativeModules.ToastExample);
+    eventEmitter.addListener('iproov_connecting', (event) => {
+      console.log(event.eventProperty);
+    });
+
+    eventEmitter.addListener('iproov_connected', (event) => {
+      console.log(event.eventProperty);
+    });
+
+    eventEmitter.addListener('iproov_processing', (event) => {
+      console.log(event.eventProperty);
+    });
+
+    eventEmitter.addListener('iproov_success', (event) => {
+      console.log(event.eventProperty);
+    });
+
+    eventEmitter.addListener('iproov_failure', (event) => {
+      console.log(event.eventProperty);
+    });
+
+  }
+
   render() {
     return (
       <View style={styles.container}>

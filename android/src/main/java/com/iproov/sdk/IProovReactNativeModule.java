@@ -10,6 +10,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.iproov.androidapiclient.javaretrofit.ApiClientJavaRetrofit;
 import com.iproov.androidapiclient.javaretrofit.ClaimType;
 import com.iproov.androidapiclient.javaretrofit.Token;
@@ -26,23 +27,25 @@ public class IProovReactNativeModule extends ReactContextBaseJavaModule {
     private static final String API_KEY = "342a9ecc7a38610ab08620110c6250812d2a6c1d";
     private static final String SECRET = "cefd2abf7aa3be084e1e8892fbdd262eb1553d03";
     private static final String BASE_URL = "https://beta.rp.secure.iproov.me/api/v2/";
+    private DeviceEventManagerModule.RCTDeviceEventEmitter iproovEventEmitter;
+    private IProovReactNativeListener listener;
 
     public IProovReactNativeModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
+    }
+
+    @Override
+    public void initialize() {
+        super.initialize();
+        // We can only obtain the emitter instance once initialize has been called
+        listener = new IProovReactNativeListener(reactContext);
         IProov.registerListener(listener);
     }
 
     @Override
     public String getName() {
         return "IProovReactNative";
-    }
-
-    @ReactMethod
-    public void sampleMethod(String stringArgument, int numberArgument, Callback callback) {
-        // TODO: Implement some actually useful functionality
-       callback.invoke("Received numberArgument: " + numberArgument + " stringArgument: " + stringArgument);
-        //launch(null, null, "verify", "laolu.animashaun@iproov.com");
     }
 
     @ReactMethod
@@ -89,43 +92,6 @@ public class IProovReactNativeModule extends ReactContextBaseJavaModule {
         public void onFailure(Call<Token> call, Throwable throwable) {
             Log.d("ReactNative", "Token generation failed");
             throwable.printStackTrace();
-        }
-    };
-
-    private IProov.Listener listener = new IProov.Listener() {
-        @Override
-        public void onConnecting() {
-
-        }
-
-        @Override
-        public void onConnected() {
-
-        }
-
-        @Override
-        public void onProcessing(double v, String s) {
-
-        }
-
-        @Override
-        public void onSuccess(@NonNull IProov.SuccessResult successResult) {
-
-        }
-
-        @Override
-        public void onFailure(@NonNull IProov.FailureResult failureResult) {
-
-        }
-
-        @Override
-        public void onCancelled() {
-
-        }
-
-        @Override
-        public void onError(@NonNull IProovException e) {
-
         }
     };
 
