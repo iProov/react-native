@@ -13,10 +13,12 @@ import { Platform, StyleSheet, Text, View, NativeEventEmitter } from 'react-nati
 import IProovReactNative from 'iproov-react-native';
 
 export default class App extends Component<{}> {
+
   state = {
     status: 'starting',
     message: '--'
   };
+
   componentDidMount() {
     // IProovReactNative.sampleMethod('Testing', 123, (message) => {
     //   this.setState({
@@ -24,34 +26,70 @@ export default class App extends Component<{}> {
     //     message
     //   });
     // });
-    registerListeners()
+    this.registerListeners();
     IProovReactNative.launch();
   }
 
-  fun registerListeners() {
+  registerListeners() {
     const eventEmitter = new NativeEventEmitter(IProovReactNative);
     //const eventEmitter = new NativeEventEmitter(NativeModules.ToastExample);
     eventEmitter.addListener('iproov_connecting', (event) => {
-      console.log(event.eventProperty);
+      console.log('connecting: ' + JSON.stringify(event));
+      this.setState({
+        status: "connecting",
+        message: ''
+      });
     });
 
     eventEmitter.addListener('iproov_connected', (event) => {
-      console.log(event.eventProperty);
+      console.log('connected ' + JSON.stringify(event));
+      this.setState({
+        status: "connected",
+        message: ''
+      });
     });
 
     eventEmitter.addListener('iproov_processing', (event) => {
-      console.log(event.eventProperty);
+      console.log('processing ' + JSON.stringify(event));
+      this.setState({
+        status: "processing",
+        message: '' + event.progress +' event.message'
+      });
     });
 
     eventEmitter.addListener('iproov_success', (event) => {
-      console.log(event.eventProperty);
+      console.log('success ' + JSON.stringify(event));
+      this.setState({
+        status: "success",
+        message: ''
+      });
     });
 
     eventEmitter.addListener('iproov_failure', (event) => {
-      console.log(event.eventProperty);
+      console.log('failure ' + JSON.stringify(event));
+      this.setState({
+        status: "failure",
+        message: event.reason
+      })
     });
 
+    eventEmitter.addListener('iproov_error', (event) => {
+      console.log('error ' + JSON.stringify(event));
+      this.setState({
+        status: "error",
+        message: '' + event.reason
+      })
+    });
+
+    eventEmitter.addListener('iproov_cancelled', (event) => {
+      console.log('cancelled ' + JSON.stringify(event));
+      this.setState({
+        status: "cancelled",
+        message: ''
+      });
+    });
   }
+
 
   render() {
     return (
