@@ -9,8 +9,9 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, NativeEventEmitter } from 'react-native';
+import { Platform, StyleSheet, Text, View, NativeEventEmitter, Button } from 'react-native';
 import IProovReactNative from 'iproov-react-native';
+import { getToken } from './apiClient.js'
 
 export default class App extends Component<{}> {
 
@@ -26,8 +27,8 @@ export default class App extends Component<{}> {
     //     message
     //   });
     // });
+    //IProovReactNative.launch();
     this.registerListeners();
-    IProovReactNative.launch();
   }
 
   registerListeners() {
@@ -90,6 +91,28 @@ export default class App extends Component<{}> {
     });
   }
 
+  foo() {
+    console.log('foo');
+    this.bar();
+    }
+
+  bar() {
+    console.log('bar');
+  }
+
+  launchIProov() {
+    // getToken("genuine_presence", 'verify', 'laolu.animashaun@iproov.com').then(data => {
+    //   console.log('Got Token: ' + data.token);
+    //   IProovReactNative.launchIProovSafely(data.token, 'https://beta.rp.secure.iproov.me/api/v2/');
+    // })
+
+    this.foo();
+    // this.tester().then(d => {
+    //   IProovReactNative.launch();
+    // });
+
+  }
+
 
   render() {
     return (
@@ -98,6 +121,10 @@ export default class App extends Component<{}> {
         <Text style={styles.instructions}>STATUS: {this.state.status}</Text>
         <Text style={styles.welcome}>☆NATIVE CALLBACK MESSAGE☆</Text>
         <Text style={styles.instructions}>{this.state.message}</Text>
+        <Button
+          onPress={this.foo}
+          title="Launch"
+          color="#841584"/>
       </View>
     );
   }

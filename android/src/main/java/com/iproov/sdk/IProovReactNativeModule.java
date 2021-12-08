@@ -47,6 +47,7 @@ public class IProovReactNativeModule extends ReactContextBaseJavaModule {
         return "IProovReactNative";
     }
 
+
     @ReactMethod
     public void launch() {
         Log.d("REACT_NATIVE", "iProov SDK Launched");
@@ -62,6 +63,7 @@ public class IProovReactNativeModule extends ReactContextBaseJavaModule {
         getApiClient().getToken(ApiClientJavaRetrofit.AssuranceType.GENUINE_PRESENCE, claimType, userId, tokenCallback, null);
     }
 
+    @ReactMethod
     public void launchIProovSafely(String token, String baseUrl) {
 
         IProov.Options options = new IProov.Options();
@@ -72,6 +74,7 @@ public class IProovReactNativeModule extends ReactContextBaseJavaModule {
             IProov.launch(reactContext, baseUrl, token, options);
         } catch (IProovException e) {
             // TODO propagate error to event emitter
+            Log.d("ReactNative", e.getMessage());
             e.printStackTrace();
         }
     }
