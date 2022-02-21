@@ -3,8 +3,8 @@ const baseUrl = 'https://beta.rp.secure.iproov.me/api/v2/';
 const apiKey = '342a9ecc7a38610ab08620110c6250812d2a6c1d';
 const secret = 'cefd2abf7aa3be084e1e8892fbdd262eb1553d03';
 
-// TODO should make a class
 export async function getToken(assuranceType, claimType, userId) {
+
   const response = await fetch(baseUrl + 'claim/' + claimType + '/token', {
     method: 'POST',
     headers: {
@@ -14,7 +14,7 @@ export async function getToken(assuranceType, claimType, userId) {
       api_key: apiKey,
       secret: secret,
       resource: 'com.iproov.sdk',
-      userId: userId,
+      user_id: userId,
       client: 'android',
       assurance_type: assuranceType
     })

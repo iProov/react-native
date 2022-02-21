@@ -21,19 +21,11 @@ export default class App extends Component<{}> {
   };
 
   componentDidMount() {
-    // IProovReactNative.sampleMethod('Testing', 123, (message) => {
-    //   this.setState({
-    //     status: 'native callback received',
-    //     message
-    //   });
-    // });
-    //IProovReactNative.launch();
     this.registerListeners();
   }
 
   registerListeners() {
     const eventEmitter = new NativeEventEmitter(IProovReactNative);
-    //const eventEmitter = new NativeEventEmitter(NativeModules.ToastExample);
     eventEmitter.addListener('iproov_connecting', (event) => {
       console.log('connecting: ' + JSON.stringify(event));
       this.setState({
@@ -91,26 +83,11 @@ export default class App extends Component<{}> {
     });
   }
 
-  foo() {
-    console.log('foo');
-    this.bar();
-    }
-
-  bar() {
-    console.log('bar');
-  }
-
   launchIProov() {
-    // getToken("genuine_presence", 'verify', 'laolu.animashaun@iproov.com').then(data => {
-    //   console.log('Got Token: ' + data.token);
-    //   IProovReactNative.launchIProovSafely(data.token, 'https://beta.rp.secure.iproov.me/api/v2/');
-    // })
-
-    this.foo();
-    // this.tester().then(d => {
-    //   IProovReactNative.launch();
-    // });
-
+    getToken("genuine_presence", 'verify', 'laolu.animashaun@iproov.com').then(data => {
+      console.log('Launching iProov with token: ' + data.token);
+      IProovReactNative.launch(data.token, 'https://beta.rp.secure.iproov.me/api/v2/');
+    })
   }
 
 
@@ -122,7 +99,7 @@ export default class App extends Component<{}> {
         <Text style={styles.welcome}>☆NATIVE CALLBACK MESSAGE☆</Text>
         <Text style={styles.instructions}>{this.state.message}</Text>
         <Button
-          onPress={this.foo}
+          onPress={this.launchIProov}
           title="Launch"
           color="#841584"/>
       </View>
