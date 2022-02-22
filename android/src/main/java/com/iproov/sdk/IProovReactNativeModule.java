@@ -2,21 +2,23 @@
 
 package com.iproov.sdk;
 
-import android.util.Log;
-
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+
+import com.iproov.sdk.bridge.OptionsBridge;
 import com.iproov.sdk.core.exception.IProovException;
+import com.iproov.sdk.core.exception.InvalidOptionsException;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class IProovReactNativeModule extends ReactContextBaseJavaModule {
 
     private final ReactApplicationContext reactContext;
-    private static final String API_KEY = "342a9ecc7a38610ab08620110c6250812d2a6c1d";
-    private static final String SECRET = "cefd2abf7aa3be084e1e8892fbdd262eb1553d03";
-    private static final String BASE_URL = "https://beta.rp.secure.iproov.me/api/v2/";
+
     private IProovReactNativeListener listener;
 
     public IProovReactNativeModule(ReactApplicationContext reactContext) {
@@ -38,17 +40,40 @@ public class IProovReactNativeModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void launch(String token, String baseUrl) {
+    public void launch(String token, String baseUrl, String optionsString) {
 
-        IProov.Options options = new IProov.Options();
-        options.ui.enableScreenshots = true;
+        IProov.Options options;
 
-        Log.d("ReactNative", "Token generated");
+        try {
+            options = OptionsBridge.fromJson(reactContext, new JSONObject(optionsString));
+        } catch (IProovException e) {
+          e.printStackTrace();
+          listener.onError(e);
+          return;
+        } catch (JSONException e) {
+          e.printStackTrace();
+          listener.onError(new InvalidOptionsException(reactContext, e.getLocalizedMessage()));
+          return;
+        }
+
         try {
             IProov.launch(reactContext, baseUrl, token, options);
         } catch (IProovException e) {
             // TODO propagate error to event emitter
             e.printStackTrace();
+            listener.onError(e);
+        }
+    }
+
+    @ReactMethod
+    public void launch(String token, String baseUrl) {
+
+        try {
+            IProov.launch(reactContext, baseUrl, token);
+        } catch (IProovException e) {
+            // TODO propagate error to event emitter
+            e.printStackTrace();
+            listener.onError(e);
         }
     }
 

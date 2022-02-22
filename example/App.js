@@ -46,7 +46,7 @@ export default class App extends Component<{}> {
       console.log('processing ' + JSON.stringify(event));
       this.setState({
         status: "processing",
-        message: '' + event.progress +' event.message'
+        message: '' + event.progress +'${event.message}'
       });
     });
 
@@ -86,7 +86,12 @@ export default class App extends Component<{}> {
   launchIProov() {
     getToken("genuine_presence", 'verify', 'laolu.animashaun@iproov.com').then(data => {
       console.log('Launching iProov with token: ' + data.token);
-      IProovReactNative.launch(data.token, 'https://beta.rp.secure.iproov.me/api/v2/');
+      let options = {
+        ui: {
+            filter: 'shaded'
+        }
+      }
+      IProovReactNative.launch(data.token, 'https://beta.rp.secure.iproov.me/api/v2/', JSON.stringify(options));
     })
   }
 
