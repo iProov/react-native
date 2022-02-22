@@ -65,6 +65,6 @@ public class IProovReactNativeListener implements IProov.Listener {
         params.putString("reason", e.getReason());
         params.putString("message", e.getLocalizedMessage());
 
-        eventEmitter.emit("error", params);
+        eventEmitter.emit("iproov_error", params);
     }
 }
