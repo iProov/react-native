@@ -1,7 +1,6 @@
-export const options = {
+export class Options  {
 
-  ui: {
-
+  ui = {
     filter: null,
     line_color: null,
     background_color: null,
@@ -32,11 +31,9 @@ export const options = {
       liveness_tint_color: null,
       liveness_scanning_color: null
     }
+  }
 
-  },
-
-  capture : {
-
+  capture = {
     camera: null,
     face_detector: null,
 
@@ -45,13 +42,32 @@ export const options = {
       max_roll: null,
       max_pitch: null
     }
-  },
+  }
 
-  network : {
-
+  network = {
     path: null,
     timeout: null,
     certificates: null
   }
 
+  sanitize() {
+    // TODO for assurance type specific options this will put a null object rather than null
+    this.ui = removeNulls(this.ui)
+    this.capture = removeNulls(this.capture)
+    this.network = removeNulls(this.network)
+    return this
+  }
+
+}
+
+function removeNulls(object) {
+  let replacer = (key, value) => {
+    console.log('key: ' + key);
+    if (typeof object === 'object') {
+
+    }
+
+    return (value == null) ? undefined : value
+  }
+  return JSON.parse(JSON.stringify(object, replacer));
 }

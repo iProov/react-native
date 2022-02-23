@@ -10,7 +10,7 @@
 
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, NativeEventEmitter, Button } from 'react-native';
-import IProovReactNative from 'iproov-react-native';
+import IProovReactNative, { Options } from 'iproov-react-native';
 import { getToken } from './apiClient.js'
 
 export default class App extends Component<{}> {
@@ -86,12 +86,10 @@ export default class App extends Component<{}> {
   launchIProov() {
     getToken("genuine_presence", 'verify', 'laolu.animashaun@iproov.com').then(data => {
       console.log('Launching iProov with token: ' + data.token);
-      let options = {
-        ui: {
-            filter: 'shaded'
-        }
-      }
-      IProovReactNative.launch(data.token, 'https://beta.rp.secure.iproov.me/api/v2/', JSON.stringify(options));
+      let options = new Options()
+      options.ui.filter = 'shaded'
+      // TODO encapsulate the sanitize function
+      IProovReactNative.launch(data.token, 'https://beta.rp.secure.iproov.me/api/v2/', JSON.stringify(options.sanitize()));
     })
   }
 

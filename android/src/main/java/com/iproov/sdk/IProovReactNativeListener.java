@@ -61,6 +61,7 @@ public class IProovReactNativeListener implements IProov.Listener {
 
     @Override
     public void onError(@NonNull IProovException e) {
+        e.printStackTrace();
         WritableMap params = Arguments.createMap();
         params.putString("reason", e.getReason());
         params.putString("message", e.getLocalizedMessage());
