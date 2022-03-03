@@ -71,3 +71,15 @@ function removeNulls(object) {
   }
   return JSON.parse(JSON.stringify(object, replacer));
 }
+
+// Adapted from https://stackoverflow.com/a/38340730
+// Why is this so hard in JS!?!?
+// Removes nested null from nested objects
+function removeNulls2(object) {
+  // convert entried to list
+  return Object.entries(object)
+  // filter entries with null values
+  .filter(([key, value]) => value != null || value != undefined)
+  .reduce((obj, [key, value]) => ({ ...obj, [key]: (typeof value == 'object') ? removeNulls2(value) : value }), {  })
+
+}
