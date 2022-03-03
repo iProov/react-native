@@ -5,8 +5,6 @@ package com.iproov.sdk;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.Callback;
-import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import com.iproov.sdk.bridge.OptionsBridge;
 import com.iproov.sdk.core.exception.IProovException;
