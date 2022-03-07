@@ -84,7 +84,7 @@ export default class App extends Component<{}> {
       let options = new Options()
       options.ui.filter = 'shaded'
       // TODO encapsulate the sanitize function
-      IProovReactNative.launch(data.token, 'https://beta.rp.secure.iproov.me/api/v2/', JSON.stringify(options.sanitize()));
+      IProovReactNative.launch('https://beta.rp.secure.iproov.me/api/v2/', data.token, JSON.stringify(options.sanitize()));
     })
   }
 

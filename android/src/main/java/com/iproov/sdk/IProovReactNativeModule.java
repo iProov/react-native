@@ -38,7 +38,7 @@ public class IProovReactNativeModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void launch(String token, String baseUrl, String optionsString) {
+    public void launch(String baseUrl, String token, String optionsString) {
 
         IProov.Options options;
 
@@ -64,7 +64,7 @@ public class IProovReactNativeModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void launch(String token, String baseUrl) {
+    public void launch(String baseUrl, String token) {
 
         try {
             IProov.launch(reactContext, baseUrl, token);
