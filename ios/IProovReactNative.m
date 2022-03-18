@@ -1,16 +1,10 @@
 // IProovReactNative.m
 
-#import "IProovReactNative.h"
+#import <React/RCTBridgeModule.h>
+#import <React/RCTEventEmitter.h>
 
+@interface RCT_EXTERN_MODULE(IProovReactNative, RCTEventEmitter)
 
-@implementation IProovReactNative
-
-RCT_EXPORT_MODULE()
-
-RCT_EXPORT_METHOD(sampleMethod:(NSString *)stringArgument numberParameter:(nonnull NSNumber *)numberArgument callback:(RCTResponseSenderBlock)callback)
-{
-    // TODO: Implement some actually useful functionality
-    callback(@[[NSString stringWithFormat: @"numberArgument: %@ stringArgument: %@", numberArgument, stringArgument]]);
-}
+RCT_EXTERN_METHOD(launch:(NSString *)streamingURL token:(NSString *)token optionsJSON:(NSString *)optionsJSON)
 
 @end

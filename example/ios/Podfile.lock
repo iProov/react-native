@@ -11,7 +11,10 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
+  - iProov (9.3.0):
+    - Socket.IO-Client-Swift (~> 16.0)
   - iproov-react-native (1.0.0):
+    - iProov (= 9.3.0)
     - React
   - React (0.60.6):
     - React-Core (= 0.60.6)
@@ -81,6 +84,9 @@ PODS:
     - React-Core (= 0.60.6)
   - React-RCTWebSocket (0.60.6):
     - React-Core (= 0.60.6)
+  - Socket.IO-Client-Swift (16.0.1):
+    - Starscream (~> 4.0)
+  - Starscream (4.0.4)
   - yoga (0.60.6.React)
 
 DEPENDENCIES:
@@ -110,6 +116,9 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - boost-for-react-native
+    - iProov
+    - Socket.IO-Client-Swift
+    - Starscream
 
 EXTERNAL SOURCES:
   DoubleConversion:
@@ -162,7 +171,8 @@ SPEC CHECKSUMS:
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
-  iproov-react-native: ac6c6c55924bb25d94ff3daac6f4001d8f289c1e
+  iProov: 9b36589700a73ec3bc5f0069956936fdd57f69bc
+  iproov-react-native: 735f5b5205f8ac906ae478fa27591ed6a6ed15c7
   React: 68e7f8dfc27729eade18423072a143120f2f32ab
   React-Core: fc9dace551f6c8c1007dd2d3cb1bc10c90a01d3e
   React-cxxreact: abe59014fce932d41a08bf1aa5dcad9ca8f0a2c5
@@ -180,8 +190,10 @@ SPEC CHECKSUMS:
   React-RCTText: d91537e29e38dc69cf09cbca0875cf5dc7402da6
   React-RCTVibration: 7655d72dfb919dd6d8e135ca108a5a2bd9fcd7b4
   React-RCTWebSocket: 7cd2c8d0f8ddd680dc76404defba7ab1f56b83af
+  Socket.IO-Client-Swift: c116d6dc9fd6be9c259bacfe143f8725bce7d79e
+  Starscream: 5178aed56b316f13fa3bc55694e583d35dd414d9
   yoga: 5079887aa3e4c62142d6bcee493022643ee4d730
 
-PODFILE CHECKSUM: 54eb0fd240f6134c7b39890d98d74d8d96f35989
+PODFILE CHECKSUM: ef1b081e329b974c0d0139530be34a7e608eef58
 
 COCOAPODS: 1.11.2
