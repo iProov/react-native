@@ -9,82 +9,44 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, NativeEventEmitter, Button } from 'react-native';
-import IProovReactNative, { Options } from 'iproov-react-native';
-import { getToken } from './apiClient.js'
+import { StyleSheet, Text, View, Button } from 'react-native';
+import IProov from 'iproov-react-native';
+import { ApiClient } from './apiClient.js'
 import uuid from 'react-native-uuid'
 
-export default class App extends Component<{}> {
+export default class App extends Component {
 
   state = {
     message: '--'
   };
 
+  config = {
+    baseUrl : 'https://beta.rp.secure.iproov.me/api/v2/',
+    apiKey: '342a9ecc7a38610ab08620110c6250812d2a6c1d',
+    secret: 'cefd2abf7aa3be084e1e8892fbdd262eb1553d03'
+  }
+
+  apiClient = new ApiClient(this.config)
+
   componentDidMount() {
-    this.registerListeners()
+    //this.registerListeners()
   }
 
-  registerListeners() {
-    const eventEmitter = new NativeEventEmitter(IProovReactNative);
-    eventEmitter.addListener('iproov_connecting', (event) => {
-      console.log('connecting: ' + JSON.stringify(event));
-      this.setState({
-        status: "CONNECTING",
-        message: ''
-      });
-    });
-
-    eventEmitter.addListener('iproov_connected', (event) => {
-      console.log('connected ' + JSON.stringify(event));
-      this.setState({
-        status: "CONNECTED",
-        message: ''
-      });
-    });
-
-    eventEmitter.addListener('iproov_processing', (event) => {
-      console.log('processing ' + JSON.stringify(event));
-      this.setState({
-        message: `PROCESSING: ${event.message} ${event.progress}`
-      });
-    });
-
-    eventEmitter.addListener('iproov_success', (event) => {
-      console.log('SUCCESS ' + JSON.stringify(event));
-      this.setState({
-        message: ''
-      });
-    });
-
-    eventEmitter.addListener('iproov_failure', (event) => {
-      console.log('failure ' + JSON.stringify(event));
-      this.setState({
-        message: `FAILURE: ${event.reason}`
-      })
-    });
-
-    eventEmitter.addListener('iproov_error', (event) => {
-      console.log('error ' + JSON.stringify(event));
-      this.setState({
-        message: `ERROR: ${event.reason}, ${event.message}`
-      })
-    });
-
-    eventEmitter.addListener('iproov_cancelled', (event) => {
-      console.log('cancelled ' + JSON.stringify(event));
-      this.setState({
-        message: 'CANCELLED'
-      });
-    });
-  }
-
-  launchIProov() {
-    getToken("genuine_presence", 'enrol', uuidv4()).then(data => {
+  launchIProov = () => {
+    this.apiClient.getToken('liveness', 'enrol', uuidv4()).then(data => {
       console.log('Launching iProov with token: ' + data.token);
-      let options = new Options()
+
+      let options = new IProov.Options()
       options.ui.filter = 'shaded'
-      // TODO encapsulate the sanitize function
-      IProovReactNative.launch('https://beta.rp.secure.iproov.me/api/v2/', data.token, JSON.stringify(options.sanitize()));
+
+      IProov.launch(this.config.baseUrl, data.token, options, (e) => this.eventHandler(e));
+    })
+  }
+
+  eventHandler(iproovEvent) {
+    console.log(iproovEvent)
+    this.setState({
+      message: JSON.stringify(iproovEvent)
     })
   }
 
@@ -96,8 +58,8 @@ export default class App extends Component<{}> {
     
         <Button
           onPress={this.launchIProov}
-          title="Launch"
-          color="#841584"/>
+          title='Launch'
+          color='#841584'/>
           <Text style={styles.instructions}>{this.state.message}</Text>
       </View>
     );

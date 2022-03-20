@@ -1,9 +1,11 @@
 // main index.js
 
-import { NativeModules } from 'react-native';
+//import { NativeModules } from 'react-native';
 
-const { IProovReactNative } = NativeModules;
+//const { IProovReactNative } = NativeModules;
 
-export default IProovReactNative;
+//export default IProovReactNative;
 
-export { Options } from './src/options.js'
+import * as IProov  from './src/IProov.js'
+
+export default IProov

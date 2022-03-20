@@ -15,6 +15,7 @@ public class IProovReactNativeListener implements IProov.Listener {
     public IProovReactNativeListener(ReactContext reactContext) {
         eventEmitter = reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class);
     }
+
     @Override
     public void onConnecting() {
         eventEmitter.emit("iproov_connecting", null);
@@ -41,6 +42,7 @@ public class IProovReactNativeListener implements IProov.Listener {
         // TODO what about frame
 
         eventEmitter.emit("iproov_success", params);
+       IProov.unregisterListener(this);
     }
 
     @Override
@@ -52,11 +54,13 @@ public class IProovReactNativeListener implements IProov.Listener {
         // TODO what about frame
 
         eventEmitter.emit("iproov_failure", params);
+        IProov.unregisterListener(this);
     }
 
     @Override
     public void onCancelled() {
         eventEmitter.emit("iproov_cancelled", null);
+        IProov.unregisterListener(this);
     }
 
     @Override
@@ -67,5 +71,6 @@ public class IProovReactNativeListener implements IProov.Listener {
         params.putString("message", e.getLocalizedMessage());
 
         eventEmitter.emit("iproov_error", params);
+        IProov.unregisterListener(this);
     }
 }

@@ -10,14 +10,18 @@ import com.iproov.sdk.bridge.OptionsBridge;
 import com.iproov.sdk.core.exception.IProovException;
 import com.iproov.sdk.core.exception.InvalidOptionsException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 
 public class IProovReactNativeModule extends ReactContextBaseJavaModule {
 
     private final ReactApplicationContext reactContext;
-
     private IProovReactNativeListener listener;
+
 
     public IProovReactNativeModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -25,11 +29,16 @@ public class IProovReactNativeModule extends ReactContextBaseJavaModule {
     }
 
     @Override
-    public void initialize() {
-        super.initialize();
-        // We can only obtain the emitter instance once initialize has been called
-        listener = new IProovReactNativeListener(reactContext);
-        IProov.registerListener(listener);
+    public Map<String, Object> getConstants() {
+        final Map<String, Object> constants = new HashMap<>();
+        constants.put("CONNECTING_EVENT", "iproov_connecting");
+        constants.put("CONNECTED_EVENT", "iproov_connected");
+        constants.put("PROCESSING_EVENT", "iproov_processing");
+        constants.put("SUCCESS_EVENT", "iproov_success");
+        constants.put("FAILURE_EVENT", "iproov_failure");
+        constants.put("CANCELLED_EVENT", "iproov_cancelled");
+        constants.put("ERROR_EVENT", "iproov_error");
+        return constants;
     }
 
     @Override
@@ -39,6 +48,8 @@ public class IProovReactNativeModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void launch(String baseUrl, String token, String optionsString) {
+        listener = new IProovReactNativeListener(reactContext);
+        IProov.registerListener(listener);
 
         IProov.Options options;
 
@@ -57,19 +68,6 @@ public class IProovReactNativeModule extends ReactContextBaseJavaModule {
         try {
             IProov.launch(reactContext, baseUrl, token, options);
         } catch (IProovException e) {
-            // TODO propagate error to event emitter
-            e.printStackTrace();
-            listener.onError(e);
-        }
-    }
-
-    @ReactMethod
-    public void launch(String baseUrl, String token) {
-
-        try {
-            IProov.launch(reactContext, baseUrl, token);
-        } catch (IProovException e) {
-            // TODO propagate error to event emitter
             e.printStackTrace();
             listener.onError(e);
         }

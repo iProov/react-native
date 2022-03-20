@@ -13,7 +13,6 @@ export class Options  {
     secondary_tint_color: null,
     title: null,
     font_path: null,
-    // TODO double check
     logo_image: null,
     floating_prompt_enabled: null,
     enable_screenshots: null,
@@ -51,35 +50,17 @@ export class Options  {
   }
 
   sanitize() {
-    // TODO for assurance type specific options this will put a null object rather than null
     this.ui = removeNulls(this.ui)
     this.capture = removeNulls(this.capture)
     this.network = removeNulls(this.network)
     return this
   }
-
 }
 
 function removeNulls(object) {
   let replacer = (key, value) => {
-    console.log('key: ' + key);
-    if (typeof object === 'object') {
-
+     return (value == null) ? undefined : value 
     }
 
-    return (value == null) ? undefined : value
-  }
   return JSON.parse(JSON.stringify(object, replacer));
-}
-
-// Adapted from https://stackoverflow.com/a/38340730
-// Why is this so hard in JS!?!?
-// Removes nested null from nested objects
-function removeNulls2(object) {
-  // convert entried to list
-  return Object.entries(object)
-  // filter entries with null values
-  .filter(([key, value]) => value != null || value != undefined)
-  .reduce((obj, [key, value]) => ({ ...obj, [key]: (typeof value == 'object') ? removeNulls2(value) : value }), {  })
-
 }
