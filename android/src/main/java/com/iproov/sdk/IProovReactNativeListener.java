@@ -2,11 +2,16 @@ package com.iproov.sdk;
 
 import androidx.annotation.NonNull;
 
+import android.graphics.Bitmap;
+import android.util.Base64;
+
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.iproov.sdk.core.exception.IProovException;
+
+import java.io.ByteArrayOutputStream;
 
 public class IProovReactNativeListener implements IProov.Listener {
 
@@ -39,7 +44,10 @@ public class IProovReactNativeListener implements IProov.Listener {
     public void onSuccess(@NonNull IProov.SuccessResult successResult) {
         WritableMap params = Arguments.createMap();
         params.putString("token", successResult.token);
-        // TODO what about frame
+
+        if(successResult.frame != null) {
+            params.putString("frame", base64EncodeBitmap(successResult.frame));
+        }
 
         eventEmitter.emit(IProovReactNativeModule.SUCCESS_EVENT, params);
         IProov.unregisterListener(this);
@@ -51,7 +59,9 @@ public class IProovReactNativeListener implements IProov.Listener {
         params.putString("token", failureResult.token);
         params.putString("feedback_code", failureResult.feedbackCode);
         params.putString("reason", failureResult.reason);
-        // TODO what about frame
+        if(failureResult.frame != null) {
+            params.putString("frame", base64EncodeBitmap(failureResult.frame));
+        }
 
         eventEmitter.emit(IProovReactNativeModule.FAILURE_EVENT, params);
         IProov.unregisterListener(this);
@@ -72,5 +82,12 @@ public class IProovReactNativeListener implements IProov.Listener {
 
         eventEmitter.emit(IProovReactNativeModule.ERROR_EVENT, params);
         IProov.unregisterListener(this);
+    }
+
+    private static String base64EncodeBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();  
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.NO_WRAP);
     }
 }
