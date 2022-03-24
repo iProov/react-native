@@ -18,12 +18,12 @@ public class IProovReactNativeListener implements IProov.Listener {
 
     @Override
     public void onConnecting() {
-        eventEmitter.emit("iproov_connecting", null);
+        eventEmitter.emit(IProovReactNativeModule.CONNECTING_EVENT, null);
     }
 
     @Override
     public void onConnected() {
-        eventEmitter.emit("iproov_connected", null);
+        eventEmitter.emit(IProovReactNativeModule.CONNECTED_EVENT, null);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class IProovReactNativeListener implements IProov.Listener {
         params.putDouble("progress", progress);
         params.putString("message", message);
 
-        eventEmitter.emit("iproov_processing", params);
+        eventEmitter.emit(IProovReactNativeModule.PROCESSING_EVENT, params);
     }
 
     @Override
@@ -41,8 +41,8 @@ public class IProovReactNativeListener implements IProov.Listener {
         params.putString("token", successResult.token);
         // TODO what about frame
 
-        eventEmitter.emit("iproov_success", params);
-       IProov.unregisterListener(this);
+        eventEmitter.emit(IProovReactNativeModule.SUCCESS_EVENT, params);
+        IProov.unregisterListener(this);
     }
 
     @Override
@@ -53,13 +53,13 @@ public class IProovReactNativeListener implements IProov.Listener {
         params.putString("reason", failureResult.reason);
         // TODO what about frame
 
-        eventEmitter.emit("iproov_failure", params);
+        eventEmitter.emit(IProovReactNativeModule.FAILURE_EVENT, params);
         IProov.unregisterListener(this);
     }
 
     @Override
     public void onCancelled() {
-        eventEmitter.emit("iproov_cancelled", null);
+        eventEmitter.emit(IProovReactNativeModule.CANCELLED_EVENT, null);
         IProov.unregisterListener(this);
     }
 
@@ -70,7 +70,7 @@ public class IProovReactNativeListener implements IProov.Listener {
         params.putString("reason", e.getReason());
         params.putString("message", e.getLocalizedMessage());
 
-        eventEmitter.emit("iproov_error", params);
+        eventEmitter.emit(IProovReactNativeModule.ERROR_EVENT, params);
         IProov.unregisterListener(this);
     }
 }

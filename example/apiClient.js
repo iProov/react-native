@@ -9,8 +9,7 @@ export class ApiClient {
   }
 
   async getToken(assuranceType, claimType, userId) {
-
-    const response = await fetch(this.baseUrl + 'claim/' + claimType + '/token', {
+    return await fetch(`${this.baseUrl}/claim/${claimType}/token`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -24,8 +23,6 @@ export class ApiClient {
         assurance_type: assuranceType
       })
     });
-  
-    return response.json();
   }
 
    async enrolPhoto(token, image, photoSource) {
@@ -35,18 +32,27 @@ export class ApiClient {
       {name: 'secret', data: this.secret },
       {name: 'rotation', data: '0' },
       {name: 'token', data: token },
-      { name: 'source', data: 'oid'},
+      { name: 'source', data: photoSource},
       { name: 'image', filename: 'image.jpeg', type: 'image/jpeg', data: image } 
     ]
 
-    const response = await RNFetchBlob.fetch('POST', `${this.baseUrl}claim/enrol/image`, {'Content-Type': 'multipart/form-data; boundary=-------kjqdgfljhsgdfljhgsdlfjhgasdf'}, form)
+    return await RNFetchBlob.fetch('POST', `${this.baseUrl}/claim/enrol/image`, {'Content-Type': 'multipart/form-data; boundary=-------kjqdgfljhsgdfljhgsdlfjhgasdf'}, form)
+  }
 
-    return response.json()
+  async enrolPhotoAndGetVerifyToken(userId, assuranceType, image, photoSource) {
+    let response = await this.getToken(assuranceType, 'enrol', userId)
+
+    if(!response.ok) return response
+
+    let body = await response.json()
+
+    await this.enrolPhoto(body.token, image, photoSource)
+
+    return this.getToken(assuranceType, 'verify', userId)
   }
 
   async validate(token, userId) {
-
-    const response = await fetch(this.baseUrl + 'claim/verify/validate', {
+    return await fetch(`${this.baseUrl}/claim/verify/validate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -60,14 +66,11 @@ export class ApiClient {
         ip: '127.0.0.1',
         client: 'android'
       })
-    });
-  
-    return response.json();
+    });  
   }
 
   async invalidate(token, reason) {
-
-    const response = await fetch(this.baseUrl + 'claim/${token}/invalidate', {
+    return await fetch(`${this.baseUrl}/claim/${token}/invalidate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -75,9 +78,7 @@ export class ApiClient {
       body: JSON.stringify({
         reason: reason
       })
-    });
-  
-    return response.json();
+    });  
   }
   
 }

@@ -22,37 +22,50 @@ function getNativeEventEmitterInstace() {
 function registerDelegateListeners(listener) {
     const eventEmitter = getNativeEventEmitterInstace()
     eventEmitter.addListener(CONNECTING_EVENT, (event) => {
-      console.log('connecting: ' + JSON.stringify(event));
-      listener(event)
+      listener({ event: CONNECTING_EVENT, 
+        params: event
+      })
     });
 
     eventEmitter.addListener(CONNECTED_EVENT, (event) => {
-      console.log('connected ' + JSON.stringify(event));
-      listener(event)
+      listener({
+        event: CONNECTED_EVENT, 
+        params: event
+      })
     });
 
     eventEmitter.addListener(PROCESSING_EVENT, (event) => {
-      console.log('processing ' + JSON.stringify(event));
-      listener(event)
+      listener({
+        event: PROCESSING_EVENT, 
+        params: event
+      })
     });
 
     eventEmitter.addListener(SUCCESS_EVENT, (event) => {
-      console.log('SUCCESS ' + JSON.stringify(event));
-      listener(event)
+      listener({
+        event: SUCCESS_EVENT, 
+        params: event
+      })
     });
 
     eventEmitter.addListener(FAILURE_EVENT, (event) => {
-      console.log('failure ' + JSON.stringify(event));
-      listener(event)
+      listener({
+        event: FAILURE_EVENT, 
+        params: event
+      })
     });
 
     eventEmitter.addListener(ERROR_EVENT, (event) => {
-      console.log('error ' + JSON.stringify(event));
-      listener(event)
+      listener({
+        event: ERROR_EVENT, 
+        params: event
+      })
     });
 
     eventEmitter.addListener(CANCELLED_EVENT, (event) => {
-      console.log('cancelled ' + JSON.stringify(event));
-      listener(event)
+      listener({
+        event: CANCELLED_EVENT, 
+        params: event
+      })
     });
   }
