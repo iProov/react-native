@@ -12,9 +12,12 @@
 
 // These defaults should reflect the SDK versions used by
 // the minimum React Native version supported.
+
+// Compile & target SDK version is based on the compile & target SDK version of the minumum supported RN verstion, this should help to mitigate against compatability issues
+// SDK version for v0.6.0 can be found here https://github.com/facebook/react-native/blob/769e35ba5f4c31ef913035a5cc8bc0e88546ca55/ReactAndroid/build.gradle#L276
 def DEFAULT_COMPILE_SDK_VERSION = 28
 def DEFAULT_BUILD_TOOLS_VERSION = '28.0.3'
-def DEFAULT_MIN_SDK_VERSION = 16
+def DEFAULT_MIN_SDK_VERSION = 21
 def DEFAULT_TARGET_SDK_VERSION = 28
 
 def safeExtGet(prop, fallback) {
@@ -81,7 +84,7 @@ repositories {
 dependencies {
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules
-    implementation 'com.iproov.sdk:iproov:7.1.0'
+    implementation 'com.iproov.sdk:iproov:7.3.0'
 }
 
 def configureReactNativePom(def pom) {
