@@ -1,7 +1,6 @@
 import RNFetchBlob from 'rn-fetch-blob'
 
 export class ApiClient {
-
   constructor(config) {
     this.baseUrl = config.baseUrl
     this.apiKey = config.apiKey
@@ -22,27 +21,34 @@ export class ApiClient {
         client: 'android',
         assurance_type: assuranceType
       })
-    });
+    })
   }
 
-   async enrolPhoto(token, image, photoSource) {
-
+  async enrolPhoto(token, image, photoSource) {
     let form = [
-      {name: 'api_key', data: this.apiKey},
-      {name: 'secret', data: this.secret },
-      {name: 'rotation', data: '0' },
-      {name: 'token', data: token },
-      { name: 'source', data: photoSource},
-      { name: 'image', filename: 'image.jpeg', type: 'image/jpeg', data: image } 
+      { name: 'api_key', data: this.apiKey },
+      { name: 'secret', data: this.secret },
+      { name: 'rotation', data: '0' },
+      { name: 'token', data: token },
+      { name: 'source', data: photoSource },
+      { name: 'image', filename: 'image.jpeg', type: 'image/jpeg', data: image }
     ]
 
-    return await RNFetchBlob.fetch('POST', `${this.baseUrl}/claim/enrol/image`, {'Content-Type': 'multipart/form-data; boundary=-------kjqdgfljhsgdfljhgsdlfjhgasdf'}, form)
+    return await RNFetchBlob.fetch(
+      'POST',
+      `${this.baseUrl}/claim/enrol/image`,
+      {
+        'Content-Type':
+          'multipart/form-data; boundary=-------kjqdgfljhsgdfljhgsdlfjhgasdf'
+      },
+      form
+    )
   }
 
   async enrolPhotoAndGetVerifyToken(userId, assuranceType, image, photoSource) {
     let response = await this.getToken(assuranceType, 'enrol', userId)
 
-    if(!response.ok) return response
+    if (!response.ok) return response
 
     let body = await response.json()
 
@@ -66,7 +72,7 @@ export class ApiClient {
         ip: '127.0.0.1',
         client: 'android'
       })
-    });  
+    })
   }
 
   async invalidate(token, reason) {
@@ -78,7 +84,6 @@ export class ApiClient {
       body: JSON.stringify({
         reason: reason
       })
-    });  
+    })
   }
-  
 }

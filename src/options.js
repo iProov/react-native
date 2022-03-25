@@ -1,26 +1,49 @@
-export class Options  {
-
+export class Options {
   // options.ui.orientation
-  static get PORTRAIT() { return 'portrait' }
-  static get LANDSCAPE() { return 'landscape' }
-  static get REVERSE_LANDSCAPE() { return 'reverse_landscape'}
-  static get REVERSE_PORTRAIT() { return 'reverse_portrait'}
-  
+  static get PORTRAIT() {
+    return 'portrait'
+  }
+  static get LANDSCAPE() {
+    return 'landscape'
+  }
+  static get REVERSE_LANDSCAPE() {
+    return 'reverse_landscape'
+  }
+  static get REVERSE_PORTRAIT() {
+    return 'reverse_portrait'
+  }
+
   // options.capture.camera
-  static get FRONT() { return 'front'}
-  static get EXTERNAL () { return 'external'}
+  static get FRONT() {
+    return 'front'
+  }
+  static get EXTERNAL() {
+    return 'external'
+  }
 
   // options.capture.face_detector
-  static get AUTO () { return 'auto'}
+  static get AUTO() {
+    return 'auto'
+  }
   // TODO naming collision with filter.classic
-  // Might be a good idea to name space these options 
-  static get CLASSIC () { return 'classic'}
-  static get ML_KIT () { return 'ml_kit'}
-  static get BLAZEFACE () { return 'blazeface'}
+  // Might be a good idea to name space these options
+  static get CLASSIC() {
+    return 'classic'
+  }
+  static get ML_KIT() {
+    return 'ml_kit'
+  }
+  static get BLAZEFACE() {
+    return 'blazeface'
+  }
 
   // options.ui.filter
-  static get SHADED () { return 'shaded'}
-  static get VIBRANT () { return 'vibrant'}
+  static get SHADED() {
+    return 'shaded'
+  }
+  static get VIBRANT() {
+    return 'vibrant'
+  }
 
   ui = {
     filter: null,
@@ -81,8 +104,8 @@ export class Options  {
 
 function removeNulls(object) {
   let replacer = (key, value) => {
-     return (value == null) ? undefined : value 
-    }
+    return value == null ? undefined : value
+  }
 
-  return JSON.parse(JSON.stringify(object, replacer));
+  return JSON.parse(JSON.stringify(object, replacer))
 }
