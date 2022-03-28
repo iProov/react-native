@@ -27,6 +27,19 @@ class IProovReactNative: RCTEventEmitter {
         ]
     }
 
+    @objc
+    override func constantsToExport() -> [AnyHashable : Any]! {
+        [
+            "CONNECTING_EVENT": "iproov_connecting",
+            "CONNECTED_EVENT": "iproov_connected",
+            "PROCESSING_EVENT": "iproov_processing",
+            "SUCCESS_EVENT": "iproov_success",
+            "FAILURE_EVENT": "iproov_failure",
+            "CANCELLED_EVENT": "iproov_cancelled",
+            "ERROR_EVENT": "iproov_error"
+        ]
+  }
+
     @objc(launch:token:optionsJSON:)
     func launch(streamingURL: String, token: String, optionsJSON: String) {
         let json = try! JSONSerialization.jsonObject(with: optionsJSON.data(using: .utf8)!, options: []) as! [String: Any] // TODO: Error handling here
