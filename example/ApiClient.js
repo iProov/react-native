@@ -13,7 +13,9 @@ export const PHOTO_SOURCE_ELECTRONIC_ID = 'eid'
 
 export default class ApiClient {
   constructor(config) {
-    this.baseUrl = config.baseUrl.endsWith('/') ? config.baseUrl : config.baseUrl + '/'
+    this.baseUrl = config.baseUrl.endsWith('/')
+      ? config.baseUrl
+      : config.baseUrl + '/'
     this.apiKey = config.apiKey
     this.secret = config.secret
   }

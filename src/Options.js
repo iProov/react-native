@@ -1,5 +1,4 @@
 export class Options {
-
   // options.ui.orientation
   static get PORTRAIT() {
     return 'portrait'

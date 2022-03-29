@@ -1,18 +1,24 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Button, Alert } from 'react-native'
 import IProov from 'iproov-react-native'
-import ApiClient, { CLAIM_TYPE_ENROL, ASSURANCE_TYPE_LIVENESS } from './ApiClient.js'
+import ApiClient, {
+  CLAIM_TYPE_ENROL,
+  ASSURANCE_TYPE_LIVENESS
+} from './ApiClient.js'
 import uuid from 'react-native-uuid'
 import RNProgressHud from 'progress-hud'
 import config from './credentials.js'
 
 export default class App extends Component {
-  
   apiClient = new ApiClient(config)
 
   launchIProov = async () => {
     RNProgressHud.showWithStatus('Getting token')
-    let response = await this.apiClient.getToken(ASSURANCE_TYPE_LIVENESS, CLAIM_TYPE_ENROL, uuid.v4())
+    let response = await this.apiClient.getToken(
+      ASSURANCE_TYPE_LIVENESS,
+      CLAIM_TYPE_ENROL,
+      uuid.v4()
+    )
 
     let body = await response.json()
     console.log(`API Client response: '${JSON.stringify(body)}`)
