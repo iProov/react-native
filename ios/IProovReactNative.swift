@@ -30,13 +30,13 @@ class IProovReactNative: RCTEventEmitter {
     @objc
     override func constantsToExport() -> [AnyHashable : Any]! {
         [
-            "CONNECTING_EVENT": "iproov_connecting",
-            "CONNECTED_EVENT": "iproov_connected",
-            "PROCESSING_EVENT": "iproov_processing",
-            "SUCCESS_EVENT": "iproov_success",
-            "FAILURE_EVENT": "iproov_failure",
-            "CANCELLED_EVENT": "iproov_cancelled",
-            "ERROR_EVENT": "iproov_error"
+            "EVENT_CONNECTING": "iproov_connecting",
+            "EVENT_CONNECTED": "iproov_connected",
+            "EVENT_PROCESSING": "iproov_processing",
+            "EVENT_SUCCESS": "iproov_success",
+            "EVENT_FAILURE": "iproov_failure",
+            "EVENT_CANCELLED": "iproov_cancelled",
+            "EVENT_ERROR": "iproov_error"
         ]
   }
 

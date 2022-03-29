@@ -22,13 +22,13 @@ public class IProovReactNativeModule extends ReactContextBaseJavaModule {
     private final ReactApplicationContext reactContext;
     private IProovReactNativeListener listener;
     
-    public static final String CONNECTING_EVENT = "iproov_connecting";
-    public static final String CONNECTED_EVENT = "iproov_connected";
-    public static final String PROCESSING_EVENT = "iproov_processing";
-    public static final String SUCCESS_EVENT = "iproov_success";
-    public static final String FAILURE_EVENT = "iproov_failure";
-    public static final String CANCELLED_EVENT = "iproov_cancelled";
-    public static final String ERROR_EVENT = "iproov_error";
+    public static final String EVENT_CONNECTING = "iproov_connecting";
+    public static final String EVENT_CONNECTED = "iproov_connected";
+    public static final String EVENT_PROCESSING = "iproov_processing";
+    public static final String EVENT_SUCCESS = "iproov_success";
+    public static final String EVENT_FAILURE = "iproov_failure";
+    public static final String EVENT_CANCELLED = "iproov_cancelled";
+    public static final String EVENT_ERROR = "iproov_error";
 
 
     public IProovReactNativeModule(ReactApplicationContext reactContext) {
@@ -39,13 +39,13 @@ public class IProovReactNativeModule extends ReactContextBaseJavaModule {
     @Override
     public Map<String, Object> getConstants() {
         final Map<String, Object> constants = new HashMap<>();
-        constants.put("CONNECTING_EVENT", CONNECTING_EVENT);
-        constants.put("CONNECTED_EVENT", CONNECTED_EVENT);
-        constants.put("PROCESSING_EVENT", PROCESSING_EVENT);
-        constants.put("SUCCESS_EVENT", SUCCESS_EVENT);
-        constants.put("FAILURE_EVENT", FAILURE_EVENT);
-        constants.put("CANCELLED_EVENT", CANCELLED_EVENT);
-        constants.put("ERROR_EVENT", ERROR_EVENT);
+        constants.put("EVENT_CONNECTING", EVENT_CONNECTING);
+        constants.put("EVENT_CONNECTED", EVENT_CONNECTED);
+        constants.put("EVENT_PROCESSING", EVENT_PROCESSING);
+        constants.put("EVENT_SUCCESS", EVENT_SUCCESS);
+        constants.put("EVENT_FAILURE", EVENT_FAILURE);
+        constants.put("EVENT_CANCELLED", EVENT_CANCELLED);
+        constants.put("EVENT_ERROR", EVENT_ERROR);
         return constants;
     }
 

@@ -1,14 +1,25 @@
 import RNFetchBlob from 'rn-fetch-blob'
 
-export class ApiClient {
+// THIS CODE IS PROVIDED FOR DEMO PURPOSES ONLY AND SHOULD NOT BE USED IN
+// PRODUCTION! YOU SHOULD NEVER EMBED YOUR CREDENTIALS IN A PUBLIC APP RELEASE!
+// THESE API CALLS SHOULD ONLY EVER BE MADE FROM YOUR BACK-END SERVER
+
+export const CLAIM_TYPE_ENROL = 'enrol'
+export const CLAIM_TYPE_VERIFY = 'verify'
+export const ASSURANCE_TYPE_GENUINE_PRESENCE = 'genuine_presence'
+export const ASSURANCE_TYPE_LIVENESS = 'liveness'
+export const PHOTO_SOURCE_OPTICAL_ID = 'oid'
+export const PHOTO_SOURCE_ELECTRONIC_ID = 'eid'
+
+export default class ApiClient {
   constructor(config) {
-    this.baseUrl = config.baseUrl
+    this.baseUrl = config.baseUrl.endsWith('/') ? config.baseUrl : config.baseUrl + '/'
     this.apiKey = config.apiKey
     this.secret = config.secret
   }
 
   async getToken(assuranceType, claimType, userId) {
-    return await fetch(`${this.baseUrl}/claim/${claimType}/token`, {
+    return await fetch(`${this.baseUrl}claim/${claimType}/token`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -46,7 +57,7 @@ export class ApiClient {
   }
 
   async enrolPhotoAndGetVerifyToken(userId, assuranceType, image, photoSource) {
-    let response = await this.getToken(assuranceType, 'enrol', userId)
+    let response = await this.getToken(assuranceType, CLAIM_TYPE_ENROL, userId)
 
     if (!response.ok) return response
 
@@ -54,11 +65,11 @@ export class ApiClient {
 
     await this.enrolPhoto(body.token, image, photoSource)
 
-    return this.getToken(assuranceType, 'verify', userId)
+    return this.getToken(assuranceType, CLAIM_TYPE_ENROL, userId)
   }
 
   async validate(token, userId) {
-    return await fetch(`${this.baseUrl}/claim/verify/validate`, {
+    return await fetch(`${this.baseUrl}claim/verify/validate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -76,7 +87,7 @@ export class ApiClient {
   }
 
   async invalidate(token, reason) {
-    return await fetch(`${this.baseUrl}/claim/${token}/invalidate`, {
+    return await fetch(`${this.baseUrl}claim/${token}/invalidate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

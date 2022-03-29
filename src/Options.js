@@ -1,14 +1,18 @@
 export class Options {
+
   // options.ui.orientation
   static get PORTRAIT() {
     return 'portrait'
   }
+
   static get LANDSCAPE() {
     return 'landscape'
   }
+
   static get REVERSE_LANDSCAPE() {
     return 'reverse_landscape'
   }
+
   static get REVERSE_PORTRAIT() {
     return 'reverse_portrait'
   }
@@ -17,6 +21,7 @@ export class Options {
   static get FRONT() {
     return 'front'
   }
+
   static get EXTERNAL() {
     return 'external'
   }
@@ -25,22 +30,25 @@ export class Options {
   static get AUTO() {
     return 'auto'
   }
-  // TODO naming collision with filter.classic
-  // Might be a good idea to name space these options
+
   static get CLASSIC() {
     return 'classic'
   }
+
   static get ML_KIT() {
     return 'ml_kit'
   }
+
   static get BLAZEFACE() {
     return 'blazeface'
   }
 
   // options.ui.filter
+  // Also can be 'classic'
   static get SHADED() {
     return 'shaded'
   }
+
   static get VIBRANT() {
     return 'vibrant'
   }

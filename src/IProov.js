@@ -1,16 +1,16 @@
 import { NativeModules, NativeEventEmitter } from 'react-native'
 const { IProovReactNative } = NativeModules
 export const {
-  CONNECTING_EVENT,
-  CONNECTED_EVENT,
-  PROCESSING_EVENT,
-  SUCCESS_EVENT,
-  FAILURE_EVENT,
-  CANCELLED_EVENT,
-  ERROR_EVENT
+  EVENT_CONNECTING,
+  EVENT_CONNECTED,
+  EVENT_PROCESSING,
+  EVENT_SUCCESS,
+  EVENT_FAILURE,
+  EVENT_CANCELLED,
+  EVENT_ERROR
 } = IProovReactNative.getConstants()
 
-export { Options } from './options.js'
+export { Options } from './Options.js'
 
 let emitter = null
 
@@ -28,48 +28,48 @@ function getNativeEventEmitterInstace() {
 
 function registerDelegateListeners(listener) {
   const eventEmitter = getNativeEventEmitterInstace()
-  eventEmitter.addListener(CONNECTING_EVENT, (event) => {
-    listener({ event: CONNECTING_EVENT, params: event })
+  eventEmitter.addListener(EVENT_CONNECTING, (event) => {
+    listener({ event: EVENT_CONNECTING, params: event })
   })
 
-  eventEmitter.addListener(CONNECTED_EVENT, (event) => {
+  eventEmitter.addListener(EVENT_CONNECTED, (event) => {
     listener({
-      event: CONNECTED_EVENT,
+      event: EVENT_CONNECTED,
       params: event
     })
   })
 
-  eventEmitter.addListener(PROCESSING_EVENT, (event) => {
+  eventEmitter.addListener(EVENT_PROCESSING, (event) => {
     listener({
-      event: PROCESSING_EVENT,
+      event: EVENT_PROCESSING,
       params: event
     })
   })
 
-  eventEmitter.addListener(SUCCESS_EVENT, (event) => {
+  eventEmitter.addListener(EVENT_SUCCESS, (event) => {
     listener({
-      event: SUCCESS_EVENT,
+      event: EVENT_SUCCESS,
       params: event
     })
   })
 
-  eventEmitter.addListener(FAILURE_EVENT, (event) => {
+  eventEmitter.addListener(EVENT_FAILURE, (event) => {
     listener({
-      event: FAILURE_EVENT,
+      event: EVENT_FAILURE,
       params: event
     })
   })
 
-  eventEmitter.addListener(ERROR_EVENT, (event) => {
+  eventEmitter.addListener(EVENT_ERROR, (event) => {
     listener({
-      event: ERROR_EVENT,
+      event: EVENT_ERROR,
       params: event
     })
   })
 
-  eventEmitter.addListener(CANCELLED_EVENT, (event) => {
+  eventEmitter.addListener(EVENT_CANCELLED, (event) => {
     listener({
-      event: CANCELLED_EVENT,
+      event: EVENT_CANCELLED,
       params: event
     })
   })

@@ -9,7 +9,18 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+
+import com.iproov.sdk.core.exception.CameraException;
+import com.iproov.sdk.core.exception.CameraPermissionException;
+import com.iproov.sdk.core.exception.CaptureAlreadyActiveException;
+import com.iproov.sdk.core.exception.FaceDetectorException;
+import com.iproov.sdk.core.exception.InvalidOptionsException;
 import com.iproov.sdk.core.exception.IProovException;
+import com.iproov.sdk.core.exception.ListenerNotRegisteredException;
+import com.iproov.sdk.core.exception.MultiWindowUnsupportedException;
+import com.iproov.sdk.core.exception.NetworkException;
+import com.iproov.sdk.core.exception.ServerException;
+import com.iproov.sdk.core.exception.UnexpectedErrorException;
 
 import java.io.ByteArrayOutputStream;
 
@@ -77,11 +88,36 @@ public class IProovReactNativeListener implements IProov.Listener {
     public void onError(@NonNull IProovException e) {
         e.printStackTrace();
         WritableMap params = Arguments.createMap();
+        params.putString("error", toErrorString(e));
         params.putString("reason", e.getReason());
         params.putString("message", e.getLocalizedMessage());
 
         eventEmitter.emit(IProovReactNativeModule.ERROR_EVENT, params);
         IProov.unregisterListener(this);
+    }
+
+    private static String toErrorString(IProovException e) {
+        if(e instanceof CaptureAlreadyActiveException) {
+            return "capture_already_active_error";
+        } else if(e instanceof NetworkException) {
+            return "network_error";
+        } else if(e instanceof CameraPermissionException) {
+            return "camera_permission_error";
+        } else if(e instanceof ServerException) {
+            return "server_error";
+        } else if(e instanceof ListenerNotRegisteredException) {
+            return "listener_not_registered_error";
+        } else if(e instanceof MultiWindowUnsupportedException) {
+            return "multi_window_unsupported_error";
+        } else if(e instanceof CameraException) {
+            return "camera_error";
+        } else if(e instanceof FaceDetectorException) {
+            return "face_detector_error";
+        } else if (e instanceof InvalidOptionsException) {
+            return "invalid_options_error";
+        } else {
+            return "unexpected_error";
+        }
     }
 
     private static String base64EncodeBitmap(Bitmap bitmap) {
