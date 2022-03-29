@@ -84,9 +84,15 @@ PODS:
     - React-Core (= 0.60.6)
   - React-RCTWebSocket (0.60.6):
     - React-Core (= 0.60.6)
+  - rn-fetch-blob (0.12.0):
+    - React-Core
+  - RNProgressHud (1.3.0):
+    - React
+    - SVProgressHUD
   - Socket.IO-Client-Swift (16.0.1):
     - Starscream (~> 4.0)
   - Starscream (4.0.4)
+  - SVProgressHUD (2.2.5)
   - yoga (0.60.6.React)
 
 DEPENDENCIES:
@@ -111,6 +117,8 @@ DEPENDENCIES:
   - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-RCTWebSocket (from `../node_modules/react-native/Libraries/WebSocket`)
+  - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
+  - RNProgressHud (from `../node_modules/progress-hud/ios`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -119,6 +127,7 @@ SPEC REPOS:
     - iProov
     - Socket.IO-Client-Swift
     - Starscream
+    - SVProgressHUD
 
 EXTERNAL SOURCES:
   DoubleConversion:
@@ -163,6 +172,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   React-RCTWebSocket:
     :path: "../node_modules/react-native/Libraries/WebSocket"
+  rn-fetch-blob:
+    :path: "../node_modules/rn-fetch-blob"
+  RNProgressHud:
+    :path: "../node_modules/progress-hud/ios"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -190,10 +203,13 @@ SPEC CHECKSUMS:
   React-RCTText: d91537e29e38dc69cf09cbca0875cf5dc7402da6
   React-RCTVibration: 7655d72dfb919dd6d8e135ca108a5a2bd9fcd7b4
   React-RCTWebSocket: 7cd2c8d0f8ddd680dc76404defba7ab1f56b83af
+  rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
+  RNProgressHud: 590312d5ba8385fd107ef09e14bde9888cae18cd
   Socket.IO-Client-Swift: c116d6dc9fd6be9c259bacfe143f8725bce7d79e
   Starscream: 5178aed56b316f13fa3bc55694e583d35dd414d9
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   yoga: 5079887aa3e4c62142d6bcee493022643ee4d730
 
-PODFILE CHECKSUM: ef1b081e329b974c0d0139530be34a7e608eef58
+PODFILE CHECKSUM: b674cffd5ce3fd03b22b81b31765064773c2d170
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3
