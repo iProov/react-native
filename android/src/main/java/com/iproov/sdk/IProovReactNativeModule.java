@@ -81,4 +81,15 @@ public class IProovReactNativeModule extends ReactContextBaseJavaModule {
         }
     }
 
+    // Required for RN 0.65+, Unless you get a warning
+    // More info herehttps://github.com/facebook/react-native/commit/114be1d2170bae2d29da749c07b45acf931e51e2
+    @ReactMethod
+    public void addListener(String eventName) {
+        // Do nothing
+    }
+
+    @ReactMethod
+    public void removeListeners(Integer count) {
+        // Do nothing
+    }
 }
