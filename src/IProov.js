@@ -51,6 +51,7 @@ function registerDelegateListeners(listener) {
       event: EVENT_SUCCESS,
       params: event
     })
+    removeAllListeners(eventEmitter)
   })
 
   eventEmitter.addListener(EVENT_FAILURE, (event) => {
@@ -58,6 +59,7 @@ function registerDelegateListeners(listener) {
       event: EVENT_FAILURE,
       params: event
     })
+    removeAllListeners(eventEmitter)
   })
 
   eventEmitter.addListener(EVENT_ERROR, (event) => {
@@ -65,6 +67,7 @@ function registerDelegateListeners(listener) {
       event: EVENT_ERROR,
       params: event
     })
+    removeAllListeners(eventEmitter)
   })
 
   eventEmitter.addListener(EVENT_CANCELLED, (event) => {
@@ -72,5 +75,15 @@ function registerDelegateListeners(listener) {
       event: EVENT_CANCELLED,
       params: event
     })
+    removeAllListeners(eventEmitter)
   })
+}
+
+function removeAllListeners(eventEmitter) {
+  eventEmitter.removeAllListeners(EVENT_CONNECTING)
+  eventEmitter.removeAllListeners(EVENT_CONNECTED)
+  eventEmitter.removeAllListeners(EVENT_PROCESSING)
+  eventEmitter.removeAllListeners(EVENT_SUCCESS)
+  eventEmitter.removeAllListeners(EVENT_FAILURE)
+  eventEmitter.removeAllListeners(EVENT_CANCELLED)
 }
