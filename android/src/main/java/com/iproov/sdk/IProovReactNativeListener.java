@@ -34,12 +34,12 @@ public class IProovReactNativeListener implements IProov.Listener {
 
     @Override
     public void onConnecting() {
-        eventEmitter.emit(IProovReactNativeModule.CONNECTING_EVENT, null);
+        eventEmitter.emit(IProovReactNativeModule.EVENT_CONNECTING, null);
     }
 
     @Override
     public void onConnected() {
-        eventEmitter.emit(IProovReactNativeModule.CONNECTED_EVENT, null);
+        eventEmitter.emit(IProovReactNativeModule.EVENT_CONNECTED, null);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class IProovReactNativeListener implements IProov.Listener {
         params.putDouble("progress", progress);
         params.putString("message", message);
 
-        eventEmitter.emit(IProovReactNativeModule.PROCESSING_EVENT, params);
+        eventEmitter.emit(IProovReactNativeModule.EVENT_PROCESSING, params);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class IProovReactNativeListener implements IProov.Listener {
             params.putString("frame", base64EncodeBitmap(successResult.frame));
         }
 
-        eventEmitter.emit(IProovReactNativeModule.SUCCESS_EVENT, params);
+        eventEmitter.emit(IProovReactNativeModule.EVENT_SUCCESS, params);
         IProov.unregisterListener(this);
     }
 
@@ -74,13 +74,13 @@ public class IProovReactNativeListener implements IProov.Listener {
             params.putString("frame", base64EncodeBitmap(failureResult.frame));
         }
 
-        eventEmitter.emit(IProovReactNativeModule.FAILURE_EVENT, params);
+        eventEmitter.emit(IProovReactNativeModule.EVENT_FAILURE, params);
         IProov.unregisterListener(this);
     }
 
     @Override
     public void onCancelled() {
-        eventEmitter.emit(IProovReactNativeModule.CANCELLED_EVENT, null);
+        eventEmitter.emit(IProovReactNativeModule.EVENT_CANCELLED, null);
         IProov.unregisterListener(this);
     }
 
@@ -92,7 +92,7 @@ public class IProovReactNativeListener implements IProov.Listener {
         params.putString("reason", e.getReason());
         params.putString("message", e.getLocalizedMessage());
 
-        eventEmitter.emit(IProovReactNativeModule.ERROR_EVENT, params);
+        eventEmitter.emit(IProovReactNativeModule.EVENT_ERROR, params);
         IProov.unregisterListener(this);
     }
 
