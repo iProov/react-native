@@ -14,13 +14,13 @@ export default class App extends Component {
 
   launchIProov = async () => {
     RNProgressHud.showWithStatus('Getting token')
-    let response = await this.apiClient.getToken(
+    const response = await this.apiClient.getToken(
       ASSURANCE_TYPE_LIVENESS,
       CLAIM_TYPE_ENROL,
       uuid.v4()
     )
 
-    let body = await response.json()
+    const body = await response.json()
     console.log(`API Client response: '${JSON.stringify(body)}`)
 
     if (!response.ok) {
@@ -32,8 +32,8 @@ export default class App extends Component {
 
     console.log('Launching with token: ' + body.token)
 
-    let options = new IProov.Options()
-    options.ui.filter = IProov.Options.VIBRANT
+    const options = new IProov.Options()
+    options.ui.floating_prompt_enabled = true
 
     IProov.launch(config.baseUrl, body.token, options, (iproovEvent) => {
       console.log(iproovEvent)
@@ -44,7 +44,7 @@ export default class App extends Component {
           break
 
         case IProov.EVENT_CONNECTED:
-          RNProgressHud.showWithStatus('Connected')
+          RNProgressHud.dismiss();
           break
 
         case IProov.EVENT_PROCESSING:
@@ -81,7 +81,7 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>IProov Example</Text>
+        <Text style={styles.welcome}>iProov Example</Text>
 
         <Button onPress={this.launchIProov} title="🚀 Launch" color="#841584" />
       </View>

@@ -38,7 +38,7 @@ export default class ApiClient {
   }
 
   async enrolPhoto(token, image, photoSource) {
-    let form = [
+    const form = [
       { name: 'api_key', data: this.apiKey },
       { name: 'secret', data: this.secret },
       { name: 'rotation', data: '0' },
@@ -59,11 +59,11 @@ export default class ApiClient {
   }
 
   async enrolPhotoAndGetVerifyToken(userId, assuranceType, image, photoSource) {
-    let response = await this.getToken(assuranceType, CLAIM_TYPE_ENROL, userId)
+    const response = await this.getToken(assuranceType, CLAIM_TYPE_ENROL, userId)
 
     if (!response.ok) return response
 
-    let body = await response.json()
+    const body = await response.json()
 
     await this.enrolPhoto(body.token, image, photoSource)
 
