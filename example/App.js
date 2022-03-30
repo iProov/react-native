@@ -21,22 +21,17 @@ export default class App extends Component {
     )
 
     const body = await response.json()
-    console.log(`API Client response: '${JSON.stringify(body)}`)
 
     if (!response.ok) {
       RNProgressHud.dismiss()
-      console.log(`API Client error response: ${JSON.stringify(body)}`)
       Alert.alert('API Client Error', body.error_description)
       return
     }
 
-    console.log('Launching with token: ' + body.token)
-
     const options = new IProov.Options()
-    options.ui.floating_prompt_enabled = true
+    options.ui.floatingPromptEnabled = true
 
     IProov.launch(config.baseUrl, body.token, options, (iproovEvent) => {
-      console.log(iproovEvent)
 
       switch (iproovEvent.event) {
         case IProov.EVENT_CONNECTING:
@@ -70,7 +65,6 @@ export default class App extends Component {
           break
 
         case IProov.EVENT_ERROR:
-          console.log(iproovEvent)
           RNProgressHud.dismiss()
           Alert.alert('Result', 'Error')
           break
