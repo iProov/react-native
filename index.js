@@ -1,3 +1,3 @@
-import * as IProov from './src/IProov.js'
+import * as IProov from './src/iProov.js'
 
 export default IProov
