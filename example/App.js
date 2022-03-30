@@ -44,7 +44,7 @@ export default class App extends Component {
           break
 
         case IProov.EVENT_CONNECTED:
-          RNProgressHud.dismiss();
+          RNProgressHud.dismiss()
           break
 
         case IProov.EVENT_PROCESSING:

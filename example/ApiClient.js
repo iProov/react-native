@@ -59,7 +59,11 @@ export default class ApiClient {
   }
 
   async enrolPhotoAndGetVerifyToken(userId, assuranceType, image, photoSource) {
-    const response = await this.getToken(assuranceType, CLAIM_TYPE_ENROL, userId)
+    const response = await this.getToken(
+      assuranceType,
+      CLAIM_TYPE_ENROL,
+      userId
+    )
 
     if (!response.ok) return response
 

@@ -1,4 +1,5 @@
 import { NativeModules, NativeEventEmitter } from 'react-native'
+import { objectToSnakeCase } from './utils.js'
 const { IProovReactNative } = NativeModules
 export const {
   EVENT_CONNECTING,
@@ -16,7 +17,8 @@ let emitter = null
 
 export function launch(baseUrl, token, options, listener) {
   registerDelegateListeners(listener)
-  IProovReactNative.launch(baseUrl, token, JSON.stringify(options.sanitize()))
+  const formattedOptions = objectToSnakeCase(options)
+  IProovReactNative.launch(baseUrl, token, JSON.stringify(formattedOptions))
 }
 
 function getNativeEventEmitterInstace() {
