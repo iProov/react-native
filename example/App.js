@@ -32,7 +32,6 @@ export default class App extends Component {
     options.ui.floatingPromptEnabled = true
 
     IProov.launch(config.baseUrl, body.token, options, (iproovEvent) => {
-
       switch (iproovEvent.event) {
         case IProov.EVENT_CONNECTING:
           RNProgressHud.showWithStatus('Connecting')
@@ -75,9 +74,16 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>iProov Example</Text>
-
-        <Button onPress={this.launchIProov} title="🚀 Launch" color="#841584" />
+        <View style={styles.toolbar}>
+          <Text style={styles.welcome}>iProov Example</Text>
+        </View>
+        <View style={styles.contentContainer}>
+          <Button
+            onPress={this.launchIProov}
+            title="🚀 Launch"
+            color="#841584"
+          />
+        </View>
       </View>
     )
   }
@@ -85,7 +91,17 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: 'column',
+    flex: 1
+  },
+  toolbar: {
     flex: 1,
+    backgroundColor: '#4998f2',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  contentContainer: {
+    flex: 9,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF'
@@ -93,6 +109,8 @@ const styles = StyleSheet.create({
   welcome: {
     fontSize: 20,
     textAlign: 'center',
-    margin: 10
+    margin: 10,
+    fontWeight: 'bold',
+    color: 'white'
   }
 })

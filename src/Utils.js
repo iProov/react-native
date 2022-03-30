@@ -4,13 +4,13 @@ export function objectToSnakeCase(obj) {
     if (obj.hasOwnProperty(key)) {
       let value = obj[key]
 
-      if(value == null) continue
+      if (value == null) continue
 
       if (
         value instanceof Array ||
         (value !== null && value.constructor === Object)
       ) {
-        value = convertObjectKeysToSnakeCaseDeep(value)
+        value = objectToSnakeCase(value)
       }
       converted[camelToSnakeCase(key)] = value
     }
