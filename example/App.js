@@ -88,9 +88,6 @@ export default class App extends Component {
     )
   }
 
-  componentWillUnmount() {
-    RNProgressHud.dismiss()
-  }
 }
 
 const styles = StyleSheet.create({

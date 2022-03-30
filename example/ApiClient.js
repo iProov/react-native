@@ -31,7 +31,7 @@ export default class ApiClient {
         secret: this.secret,
         resource: 'com.iproov.sdk',
         user_id: userId,
-        client: 'android',
+        client: 'react-native',
         assurance_type: assuranceType
       })
     })
