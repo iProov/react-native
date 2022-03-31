@@ -68,4 +68,5 @@ function removeAllListeners(eventEmitter) {
   eventEmitter.removeAllListeners(EVENT_SUCCESS)
   eventEmitter.removeAllListeners(EVENT_FAILURE)
   eventEmitter.removeAllListeners(EVENT_CANCELLED)
+  eventEmitter.removeAllListeners(EVENT_ERROR)
 }
