@@ -1,7 +1,7 @@
 {
   "name": "iproov-react-native",
-  "title": "Iproov React Native",
-  "version": "1.0.0",
+  "title": "iProov React Native SDK",
+  "version": "0.1.0",
   "description": "The iProov Biometrics SDK for React Native, providing flexible authentication for identity assurance",
   "main": "index.js",
   "files": [
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://git@github.com:iProov/react-native.git",
+    "url": "git+ssh://git@github.com:iProov/react-native.git",
     "baseUrl": "https://github.com/iProov/react-native"
   },
   "keywords": [
@@ -26,8 +26,8 @@
     "name": "iProov",
     "email": "support@iproov.com"
   },
-  "license": "MIT",
-  "licenseFilename": "LICENSE",
+  "license": "BSD-3-Clause",
+  "licenseFilename": "LICENSE.md",
   "readmeFilename": "README.md",
   "peerDependencies": {
     "react": ">=16.8.1",
