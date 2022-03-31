@@ -127,61 +127,61 @@ let options = new IProov.Options()
 options.ui.filter = IProov.Options.VIBRANT
 
 IProov.launch('https://eu.rp.secure.iproov.me/api/v2', "< YOUR TOKEN >", options, (event) => {
-          switch(event.event) {
-
-            case IProov.CONNECTING_EVENT:
-              // The SDK is connecting to the server. You should provide an indeterminate progress indicator
-              // to let the user know that the connection is taking place.
-              break
-
-            case IProov.CONNECTED_EVENT:
-              // The SDK has connected, and the iProov user interface will now be displayed. You should hide
-              // any progress indication at this point.
-              break
-
-            case IProov.PROCESSING_EVENT:
-              // The SDK will update your app with the progress of streaming to the server and authenticating
-              // the user. This will be called multiple time as the progress updates.
-              
-              let progress = event.params.progress
-              let message = event.params.message
-              break
-
-            case IProov.CANCELLED_EVENT:
-              // The user cancelled iProov, either by pressing the close button at the top right, or sending
-              // the app to the background.
-              break
-
-            case IProov.FAILURE_EVENT:
-              // The user was not successfully verified/enrolled, as their identity could not be verified,
-              // or there was another issue with their verification/enrollment. A reason (as a string)
-              // is provided as to why the claim failed, along with a feedback code from the back-end.
-              
-              let token = event.params.token
-              let frame = event.params.frame // Optional property containing a single Base64 encoded frame
-              break
-
-            case IProov.SUCCESS_EVENT:
-              // The user was not successfully verified/enrolled due to an error (e.g. lost internet connection).
-              // You will be provided with an Exception (see below).
-              // It will be called once, or never.
-              
-              let token = event.params.token
-              let feedbackCode = event.params.feedback_code
-              let reason = event.params.reason
-              let frame = event.params.frame // Optional property containing a single Base64 encoded frame
-              break
-            
-            case IProov.ERROR_EVENT:
-              // The user was not successfully verified/enrolled due to an error (e.g. lost internet connection).
-              // You will be provided with an Exception (see below).
-              // It will be called once, or never.
-              let error = event.params.error
-              let reason = event.params.reason
-              let message = event.params.message
-              break
-          }
-      })
+  switch(event.event) {
+	
+  case IProov.CONNECTING_EVENT:
+    // The SDK is connecting to the server. You should provide an indeterminate progress indicator
+    // to let the user know that the connection is taking place.
+    break
+	
+  case IProov.CONNECTED_EVENT:
+    // The SDK has connected, and the iProov user interface will now be displayed. You should hide
+    // any progress indication at this point.
+      break
+	
+case IProov.PROCESSING_EVENT:
+    // The SDK will update your app with the progress of streaming to the server and authenticating
+    // the user. This will be called multiple time as the progress updates.
+  
+    let progress = event.params.progress
+    let message = event.params.message
+    break
+	
+  case IProov.CANCELLED_EVENT:
+    // The user cancelled iProov, either by pressing the close button at the top right, or sending
+    // the app to the background.
+    break
+	
+  case IProov.FAILURE_EVENT:
+    // The user was not successfully verified/enrolled, as their identity could not be verified,
+    // or there was another issue with their verification/enrollment. A reason (as a string)
+    // is provided as to why the claim failed, along with a feedback code from the back-end.
+  
+    let token = event.params.token
+    let frame = event.params.frame // Optional property containing a single Base64 encoded frame
+    break
+	
+  case IProov.SUCCESS_EVENT:
+    // The user was not successfully verified/enrolled due to an error (e.g. lost internet connection).
+    // You will be provided with an Exception (see below).
+    // It will be called once, or never.
+  
+    let token = event.params.token
+    let feedbackCode = event.params.feedback_code
+    let reason = event.params.reason
+    let frame = event.params.frame // Optional property containing a single Base64 encoded frame
+    break
+    
+  case IProov.ERROR_EVENT:
+    // The user was not successfully verified/enrolled due to an error (e.g. lost internet connection).
+    // You will be provided with an Exception (see below).
+    // It will be called once, or never.
+    let error = event.params.error
+    let reason = event.params.reason
+    let message = event.params.message
+    break
+  }
+})
 ```
 
 👉 You should now familiarise yourself with the following resources:
