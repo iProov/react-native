@@ -1,5 +1,3 @@
-# iproov-react-native.podspec
-
 require "json"
 
 package = JSON.parse(File.read(File.join(__dir__, "package.json")))
@@ -24,8 +22,7 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.dependency "React"
-  s.dependency "iProov", "9.3.0"
-  # ...
-  # s.dependency "..."
+  s.dependency "iProov", "9.3.2"
+
 end
 
