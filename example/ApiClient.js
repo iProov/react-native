@@ -49,7 +49,7 @@ export default class ApiClient {
 
     return await RNFetchBlob.fetch(
       'POST',
-      `${this.baseUrl}/claim/enrol/image`,
+      `${this.baseUrl}claim/enrol/image`,
       {
         'Content-Type':
           'multipart/form-data'
