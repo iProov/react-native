@@ -21,7 +21,7 @@ export function launch(baseUrl, token, options, listener) {
   IProovReactNative.launch(baseUrl, token, JSON.stringify(formattedOptions))
 }
 
-function getNativeEventEmitterInstace() {
+function getNativeEventEmitterInstance() {
   if (emitter == null) {
     emitter = new NativeEventEmitter(IProovReactNative)
   }
@@ -29,14 +29,22 @@ function getNativeEventEmitterInstace() {
 }
 
 function registerDelegateListeners(listener) {
-  const eventEmitter = getNativeEventEmitterInstace()
+  const eventEmitter = getNativeEventEmitterInstance()
   const events = [
     EVENT_CONNECTING,
     EVENT_CONNECTED,
     EVENT_PROCESSING,
     EVENT_SUCCESS,
     EVENT_FAILURE,
-    EVENT_CANCELLED
+    EVENT_CANCELLED,
+    EVENT_ERROR
+  ]
+
+  const terminalEvents = [
+    EVENT_SUCCESS,
+    EVENT_FAILURE,
+    EVENT_CANCELLED,
+    EVENT_ERROR    
   ]
 
   events.forEach((eventType) => {
@@ -45,6 +53,19 @@ function registerDelegateListeners(listener) {
         event: eventType,
         params: event
       })
+
+      if (terminalEvents.includes(eventType)) {
+        removeAllListeners(eventEmitter)
+      }
     })
   })
+}
+
+function removeAllListeners(eventEmitter) {
+  eventEmitter.removeAllListeners(EVENT_CONNECTING)
+  eventEmitter.removeAllListeners(EVENT_CONNECTED)
+  eventEmitter.removeAllListeners(EVENT_PROCESSING)
+  eventEmitter.removeAllListeners(EVENT_SUCCESS)
+  eventEmitter.removeAllListeners(EVENT_FAILURE)
+  eventEmitter.removeAllListeners(EVENT_CANCELLED)
 }

@@ -17,7 +17,7 @@
 ## Introduction
 The iProov Biometrics React Native SDK wraps iProov's native iOS (Swift) and Android (Java) SDKs behind a JavaScript interface for use from within your React Native iOS or Android app.
 
-> ⚠️ **IMPORTANT:** The iProov Biometrics React Native SDK is currently in preview, which means that there may be missing/broken functionality, and the API is still subject to change. Please contact us to provide your feedback regarding the iProov Biometrics Flutter SDK Preview.
+> ⚠️ **IMPORTANT:** The iProov Biometrics React Native SDK is currently in preview, which means that there may be missing/broken functionality, and the API is still subject to change. Please contact us to provide your feedback regarding the iProov Biometrics React Native SDK Preview.
 
 ### Requirements
 
@@ -40,9 +40,9 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 1. Add the following to your package.json file:
 	
 	```json
-	  "dependencies": {
-	    "iproov-react-native": "git+ssh://git@github.com:iProov/react-native.git#v0.1.0"
-	  }
+	"dependencies": {
+	  "iproov-react-native": "git+ssh://git@github.com:iProov/react-native.git#v0.1.0"
+	}
 	```
 
 2. From your React Native app directory, run:
@@ -126,8 +126,8 @@ import IProov from 'iproov-react-native'
 let options = new IProov.Options()
 options.ui.filter = IProov.Options.VIBRANT
 
-IProov.launch('https://eu.rp.secure.iproov.me/api/v2', "< YOUR TOKEN >", options, iProovEvent => {
-          switch(iProovEvent.event) {
+IProov.launch('https://eu.rp.secure.iproov.me/api/v2', "< YOUR TOKEN >", options, (event) => {
+          switch(event.event) {
 
             case IProov.CONNECTING_EVENT:
               // The SDK is connecting to the server. You should provide an indeterminate progress indicator
@@ -143,8 +143,8 @@ IProov.launch('https://eu.rp.secure.iproov.me/api/v2', "< YOUR TOKEN >", options
               // The SDK will update your app with the progress of streaming to the server and authenticating
               // the user. This will be called multiple time as the progress updates.
               
-              let progress = iproovEvent.params.progress
-              let message = iproovEvent.params.message
+              let progress = event.params.progress
+              let message = event.params.message
               break
 
             case IProov.CANCELLED_EVENT:
@@ -157,8 +157,8 @@ IProov.launch('https://eu.rp.secure.iproov.me/api/v2', "< YOUR TOKEN >", options
               // or there was another issue with their verification/enrollment. A reason (as a string)
               // is provided as to why the claim failed, along with a feedback code from the back-end.
               
-              let token = iproovEvent.params.token
-              let frame = iproovEvent.params.frame // Nullable property containing a single Base64 encoded frame
+              let token = event.params.token
+              let frame = event.params.frame // Optional property containing a single Base64 encoded frame
               break
 
             case IProov.SUCCESS_EVENT:
@@ -166,19 +166,19 @@ IProov.launch('https://eu.rp.secure.iproov.me/api/v2', "< YOUR TOKEN >", options
               // You will be provided with an Exception (see below).
               // It will be called once, or never.
               
-              let token = iproovEvent.params.token
-              let feedbackCode = iproovEvent.params.feedback_code
-              let reason = iproovEvent.params.reason
-              let frame = iproovEvent.params.frame // Nullable property containing a single Base64 encoded frame
+              let token = event.params.token
+              let feedbackCode = event.params.feedback_code
+              let reason = event.params.reason
+              let frame = event.params.frame // Optional property containing a single Base64 encoded frame
               break
             
             case IProov.ERROR_EVENT:
               // The user was not successfully verified/enrolled due to an error (e.g. lost internet connection).
               // You will be provided with an Exception (see below).
               // It will be called once, or never.
-              let error = iproovEvent.params.error
-              let reason = iproovEvent.params.reason
-              let message = iproovEvent.params.message
+              let error = event.params.error
+              let reason = event.params.reason
+              let message = event.params.message
               break
           }
       })
@@ -199,7 +199,7 @@ Most of these options are common to both Android and iOS, however, some are plat
 
 For full documentation, please read the respective [iOS](https://github.com/iProov/ios#options) and [Android](https://github.com/iProov/android#options) native SDK documentation.
 
-A summary of the support for the various SDK options in React Native is provided below. All options are nullable and any options not set will default to their platform-specific default value.
+A summary of the support for the various SDK options in React Native is provided below. All options can be null and any options not set will default to their platform-specific default value.
 
 | Option                                          | Type               | iOS   | Android |
 |-------------------------------------------------|--------------------------------|-------|---------|
@@ -294,7 +294,7 @@ import ApiClient, { CLAIM_TYPE_ENROL, ASSURANCE_TYPE_LIVENESS } from './ApiClien
 
 let apiClient = ApiClient({
   baseUrl: "https://eu.rp.secure.iproov.me/api/v2/", // Substitute URL as appropriate
-  api_key: "< YOUR API KEY >",
+  apiKey: "< YOUR API KEY >",
   secret: "< YOUR SECRET >"
 });
 

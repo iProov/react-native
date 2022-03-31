@@ -31,8 +31,8 @@ export default class App extends Component {
     const options = new IProov.Options()
     options.ui.floatingPromptEnabled = true
 
-    IProov.launch(config.baseUrl, body.token, options, (iproovEvent) => {
-      switch (iproovEvent.event) {
+    IProov.launch(config.baseUrl, body.token, options, (event) => {
+      switch (event.event) {
         case IProov.EVENT_CONNECTING:
           RNProgressHud.showWithStatus('Connecting')
           break
@@ -43,8 +43,8 @@ export default class App extends Component {
 
         case IProov.EVENT_PROCESSING:
           RNProgressHud.showProgressWithStatus(
-            iproovEvent.params.progress,
-            iproovEvent.params.message
+            event.params.progress,
+            event.params.message
           )
           break
 
@@ -55,17 +55,17 @@ export default class App extends Component {
 
         case IProov.EVENT_FAILURE:
           RNProgressHud.dismiss()
-          Alert.alert('Result', 'Failure')
+          Alert.alert('Failure', event.params.reason)
           break
 
         case IProov.EVENT_SUCCESS:
           RNProgressHud.dismiss()
-          Alert.alert('Result', 'Success')
+          Alert.alert('Success', event.params.token)
           break
 
         case IProov.EVENT_ERROR:
           RNProgressHud.dismiss()
-          Alert.alert('Result', 'Error')
+          Alert.alert('Error', event.params.reason)
           break
       }
     })

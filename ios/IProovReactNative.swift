@@ -1,10 +1,3 @@
-//
-//  IProov.swift
-//  iproov-react-native
-//
-//  Created by Jonathan Ellis on 03/03/2022.
-//
-
 import Foundation
 import iProov
 

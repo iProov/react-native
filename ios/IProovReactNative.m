@@ -1,5 +1,3 @@
-// IProovReactNative.m
-
 #import <React/RCTBridgeModule.h>
 #import <React/RCTEventEmitter.h>
 
