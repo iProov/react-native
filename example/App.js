@@ -1,5 +1,12 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Button, Alert, SafeAreaView } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  Alert,
+  SafeAreaView
+} from 'react-native'
 import IProov from 'iproov-react-native'
 import ApiClient, {
   CLAIM_TYPE_ENROL,
@@ -73,7 +80,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }} >
+      <View style={{ flex: 1 }}>
         <SafeAreaView style={styles.container}>
           <View style={styles.toolbar}>
             <Text style={styles.welcome}>iProov Example</Text>
@@ -86,8 +93,8 @@ export default class App extends Component {
             />
           </View>
         </SafeAreaView>
-        { /* Change bottom safe area background color */}
-        <SafeAreaView style={{flex: 1, backgroundColor: '#F5FCFF'}}/>
+        {/* Change bottom safe area background color */}
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#F5FCFF' }} />
       </View>
     )
   }
@@ -97,7 +104,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     flex: 9,
-    backgroundColor: '#4998f2',
+    backgroundColor: '#4998f2'
   },
   toolbar: {
     flex: 1,

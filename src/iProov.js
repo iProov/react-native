@@ -44,7 +44,7 @@ function registerDelegateListeners(listener) {
     EVENT_SUCCESS,
     EVENT_FAILURE,
     EVENT_CANCELLED,
-    EVENT_ERROR    
+    EVENT_ERROR
   ]
 
   events.forEach((eventType) => {

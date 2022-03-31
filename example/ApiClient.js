@@ -51,8 +51,7 @@ export default class ApiClient {
       'POST',
       `${this.baseUrl}claim/enrol/image`,
       {
-        'Content-Type':
-          'multipart/form-data'
+        'Content-Type': 'multipart/form-data'
       },
       form
     )
@@ -71,7 +70,11 @@ export default class ApiClient {
 
     await this.enrolPhoto(body.token, image, photoSource)
 
-    return this.getToken(ASSURANCE_TYPE_GENUINE_PRESENCE, CLAIM_TYPE_VERIFY, userId)
+    return this.getToken(
+      ASSURANCE_TYPE_GENUINE_PRESENCE,
+      CLAIM_TYPE_VERIFY,
+      userId
+    )
   }
 
   async validate(token, userId) {
