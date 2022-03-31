@@ -1,5 +1,5 @@
 ![iProov: Flexible authentication for identity assurance](https://github.com/iProov/react-native/raw/main/images/banner.jpg)
-# iProov Biometrics React Native SDK
+# iProov Biometrics React Native SDK (Preview)
 
 ## Table of contents
 
@@ -16,6 +16,8 @@
 
 ## Introduction
 The iProov Biometrics React Native SDK wraps iProov's native iOS (Swift) and Android (Java) SDKs behind a JavaScript interface for use from within your React Native iOS or Android app.
+
+> ⚠️ **IMPORTANT:** The iProov Biometrics React Native SDK is currently in preview, which means that there may be missing/broken functionality, and the API is still subject to change. Please contact us to provide your feedback regarding the iProov Biometrics Flutter SDK Preview.
 
 ### Requirements
 
@@ -202,7 +204,7 @@ A summary of the support for the various SDK options in React Native is provided
 | Option                                          | Type               | iOS   | Android |
 |-------------------------------------------------|--------------------------------|-------|---------|
 | **`Options.ui.`**                               |                    |       |         |
-| `filter`                                        | `Options.(SHADED|VIBRANT|CLASSIC)` | ✅     | ✅       |
+| `filter`                                        | `Options.(SHADED\|VIBRANT\|CLASSIC)` | ✅     | ✅       |
 | `lineColor`                                    | `String` (#argb)          | ✅     | ✅       |
 | `backgroundColor`                              | `String` (#argb)  | ✅     | ✅       |
 | `headerBackgroundColor`                       | `String` (#argb)        | ✅     | ✅       |
@@ -217,7 +219,7 @@ A summary of the support for the various SDK options in React Native is provided
 | `closeButtonImage`                              | `String` (Base64-encoded image)          | ✅     |         |
 | `closeButtonTintColor`                          | `String` (#argb)           | ✅     |         |
 | `enableScreenshots`                            | `Boolean`            |       | ✅       |
-| `orientation`                                   | `Options.(PORTRAIT|LANDSCAPE|REVERSE_PORTRAIT|REVERSE_LANDSCAPE)`|       | ✅       |
+| `orientation`                                   | `Options.(PORTRAIT\|LANDSCAPE\|REVERSE_PORTRAIT\|REVERSE_LANDSCAPE)`|       | ✅       |
 | `activityCompatibilityRequestCode`           | `Number` (int)            |       | ✅       |
 | **`Options.ui.genuinePresenceAssurance.`**      |                    |       |         |
 | `autoStartDisabled`                           | `Boolean`            | ✅     | ✅       |
@@ -232,8 +234,8 @@ A summary of the support for the various SDK options in React Native is provided
 | `timeout`                                       | `Number` (int)       | ✅     | ✅       |
 | `path`                                          | `String`          | ✅     | ✅       |
 | **`Options.capture.`**                          |                    |       |         |
-| `camera`                                        | `Options.(FRONT|EXTERNAL)`          |       | ✅       |
-| `faceDetector`                                  | `Options.(AUTO|CLASSIC|ML_KIT|BLAZEFACE)`    |       | ✅       |
+| `camera`                                        | `Options.(FRONT\|EXTERNAL)`          |       | ✅       |
+| `faceDetector`                                  | `Options.(AUTO\|CLASSIC\|ML_KIT\|BLAZEFACE)`    |       | ✅       |
 | **`Options.capture.genuinePresenceAssurance.`** |                    |       |         |
 | `maxPitch`                                     | `Number`          | ✅ (2) | ✅ (2)   |
 | `maxYaw`                                       | `Number`          | ✅ (2) | ✅ (2)   |
@@ -265,9 +267,9 @@ IProov listener error events will contain an `error` string within the events `p
 
 The React Native API Client provides a convenient wrapper to call iProov's REST API v2 from a React Native app. It is a useful tool to assist with testing, debugging and demos, but should not be used in production mobile apps.
 
-The React Native API client can be found in `ApiClient.js` in the Example project.
+The React Native API client can be found in `ApiClient.js` in the example project.
 
-To setup your credentials, copy `credentials.example.js` to `credentials.js` and add them to the Example project.
+To setup your credentials, copy `credentials.example.js` to `credentials.js` and add them to the example project.
 
 > ⚠️ **SECURITY NOTICE:** Use of the React Native API Client requires providing it with your API secret. **You should never embed your API secret within a production app.**
 
@@ -278,10 +280,12 @@ The React Native API Client supports the following functionality:
 - `getToken()` - Get an enrol/verify token
 - `enrolPhoto()` - Perform a photo enrolment (either from an electronic or optical image). The image must be provided as an [`Image`](https://pub.dev/packages/image).
 - `enrolPhotoAndGetVerifyToken()` - A convenience method which first gets an enrolment token, then enrols the photo against that token, and then gets a verify token for the user to iProov against.
+- `validate()` - Validates a token, this is typically called via a backend-to-backend call to ensure that the claim was successful.
+- `invalidate()` - Used to cancel (invalidate) a token. Once a token has been invalidated, it can no longer be used.
 
 ### Getting a token
 
-The most basic thing you can do with the API Client is get a token to either enrol or verify a user, using either iProov's Genuine Presence Assurance or Liveness Assurance.
+The most useful thing you can do with the API Client is get a token to either enrol or verify a user, using either iProov's Genuine Presence Assurance or Liveness Assurance.
 
 This is achieved as follows:
 
@@ -305,7 +309,7 @@ For a simple iProov experience that is ready to run out-of-the-box, check out th
 
 In the example app folder, copy the `credentials.example.js` file to `credentials.js` and add your credentials obtained from the [iProov portal](https://portal.iproov.com/).
 
-Once You have complete the [installation](#installation) instructions, to run the Example app, you should run the following commands from the example project directory:
+Once You have complete the [installation](#installation) instructions, to run the example app, you should run the following commands from the example project directory:
 
 ```sh
   npx react-native run-android		# Run on Android
