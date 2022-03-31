@@ -312,8 +312,8 @@ In the example app folder, copy the `credentials.example.js` file to `credential
 Once You have complete the [installation](#installation) instructions, to run the example app, you should run the following commands from the example project directory:
 
 ```sh
-  npx react-native run-android		# Run on Android
-  npx react-native run-ios --device	# Run on iOS
+npx react-native run-android		# Run on Android
+npx react-native run-ios --device	# Run on iOS
 ```
 
 > NOTE: iProov is not supported on the iOS or Android simulator, you must use a physical device in order to iProov.
