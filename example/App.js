@@ -86,7 +86,7 @@ export default class App extends Component {
             />
           </View>
         </SafeAreaView>
-        // Change bottom safe area background color
+        { /* Change bottom safe area background color */}
         <SafeAreaView style={{flex: 1, backgroundColor: '#F5FCFF'}}/>
       </View>
     )
