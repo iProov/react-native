@@ -17,7 +17,7 @@ let emitter = null
 
 export function launch(baseUrl, token, options, listener) {
   registerDelegateListeners(listener)
-  const formattedOptions = objectToSnakeCase(options)
+  const formattedOptions = formatOptions(options)
   IProovReactNative.launch(baseUrl, token, JSON.stringify(formattedOptions))
 }
 
@@ -69,4 +69,33 @@ function removeAllListeners(eventEmitter) {
   eventEmitter.removeAllListeners(EVENT_FAILURE)
   eventEmitter.removeAllListeners(EVENT_CANCELLED)
   eventEmitter.removeAllListeners(EVENT_ERROR)
+}
+
+function formatOptions(options) {
+  options.ui.lineColor = rgba2argb(options.ui.lineColor)
+  options.ui.backgroundColor = rgba2argb(options.ui.backgroundColor)
+  options.ui.headerBackgroundColor = rgba2argb(options.ui.headerBackgroundColor)
+  options.ui.footerBackgroundColor = rgba2argb(options.ui.footerBackgroundColor)
+  options.ui.headerTextColor = rgba2argb(options.ui.headerTextColor)
+  options.ui.footerTextColor = rgba2argb(options.ui.footerTextColor)
+  options.ui.promptTextColor = rgba2argb(options.ui.promptTextColor)
+  options.ui.closeButtonTintColor = rgba2argb(options.ui.closeButtonTintColor)
+
+  options.ui.genuinePresenceAssurance.notReadyTintColor = rgba2argb(options.ui.genuinePresenceAssurance.notReadyTingColor)
+  options.ui.genuinePresenceAssurance.readyTintColor = rgba2argb(options.ui.genuinePresenceAssurance.readyTintColor)
+  options.ui.genuinePresenceAssurance.progressBarColor = rgba2argb(options.ui.genuinePresenceAssurance.progressBarColor)
+
+  options.ui.livenessAssurance.primaryTintColor = rgba2argb(options.ui.livenessAssurance.primaryTintColor)
+  options.ui.livenessAssurance.secondaryTintColor = rgba2argb(options.ui.livenessAssurance.secondaryTintColor)
+
+  return objectToSnakeCase(options)
+}
+
+function rgba2argb(hex) {
+  if(hex == null) return null
+
+  let color = hex.slice(1, 8)
+  let alpha = hex.slice(-2)
+
+  return '#' + alpha + color
 }

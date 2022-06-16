@@ -206,30 +206,30 @@ A summary of the support for the various SDK options in React Native is provided
 |-------------------------------------------------|--------------------------------|-------|---------|
 | **`Options.ui.`**                               |                    |       |         |
 | `filter`                                        | `Options.(SHADED\|VIBRANT\|CLASSIC)` | ✅     | ✅       |
-| `lineColor`                                    | `String` (#argb)          | ✅     | ✅       |
-| `backgroundColor`                              | `String` (#argb)  | ✅     | ✅       |
-| `headerBackgroundColor`                       | `String` (#argb)        | ✅     | ✅       |
-| `footerBackgroundColor`                       | `String` (#argb)         | ✅     | ✅       |
-| `headerTextColor`                             | `String` (#argb)          | ✅     | ✅       |
-| `footerTextColor`                             | `String` (#argb)          | ✅     | ✅       |
-| `promptTextColor`                             | `String` (#argb)           | ✅     | ✅       |
+| `lineColor`                                    | `String` (#rgba)          | ✅     | ✅       |
+| `backgroundColor`                              | `String` (#rgba)  | ✅     | ✅       |
+| `headerBackgroundColor`                       | `String` (#rgba)        | ✅     | ✅       |
+| `footerBackgroundColor`                       | `String` (#rgba)         | ✅     | ✅       |
+| `headerTextColor`                             | `String` (#rgba)          | ✅     | ✅       |
+| `footerTextColor`                             | `String` (#rgba)          | ✅     | ✅       |
+| `promptTextColor`                             | `String` (#rgba)           | ✅     | ✅       |
 | `floatingPromptEnabled`                       | `Boolean`            | ✅     | ✅       |
 | `title`                                         | `String`          | ✅     | ✅       |
 | `fontPath`                                     | Unsupported         | ❌ (1) | ❌(1)   |
 | `logoImage`                                    | `String` (Base64-encoded image)           | ✅     | ✅       |
 | `closeButtonImage`                              | `String` (Base64-encoded image)          | ✅     |         |
-| `closeButtonTintColor`                          | `String` (#argb)           | ✅     |         |
+| `closeButtonTintColor`                          | `String` (#rgba)           | ✅     |         |
 | `enableScreenshots`                            | `Boolean`            |       | ✅       |
 | `orientation`                                   | `Options.(PORTRAIT\|LANDSCAPE\|REVERSE_PORTRAIT\|REVERSE_LANDSCAPE)`|       | ✅       |
 | `activityCompatibilityRequestCode`           | `Number` (int)            |       | ✅       |
 | **`Options.ui.genuinePresenceAssurance.`**      |                    |       |         |
 | `autoStartDisabled`                           | `Boolean`            | ✅     | ✅       |
-| `notReadyTintColor`                          | `String` (#argb)       | ✅     | ✅       |
-| `readyTintColor`                              | `String` (#argb)       | ✅     | ✅       |
-| `progressBarColor`                            | `String` (#argb)           | ✅     | ✅       |
+| `notReadyTintColor`                          | `String` (#rgba)       | ✅     | ✅       |
+| `readyTintColor`                              | `String` (#rgba)       | ✅     | ✅       |
+| `progressBarColor`                            | `String` (#rgba)           | ✅     | ✅       |
 | **`Options.ui.livenessAssurance.`**             |                    |       |         |
-| `primaryTintColor`                            | `String` (#argb)         | ✅     | ✅       |
-| `secondaryTintColor`                          | `String` (#argb)          | ✅     | ✅       |
+| `primaryTintColor`                            | `String` (#rgba)         | ✅     | ✅       |
+| `secondaryTintColor`                          | `String` (#rgba)          | ✅     | ✅       |
 | **`Options.network.`**                          |                    |       |         |
 | `certificates`                                  | `String[]` (base 64 encoded string in DER format) | ✅     | ✅       |
 | `timeout`                                       | `Number` (int)       | ✅     | ✅       |
@@ -284,7 +284,7 @@ To setup your credentials, copy `credentials.example.js` to `credentials.js` and
 The React Native API Client supports the following functionality:
 
 - `getToken()` - Get an enrol/verify token
-- `enrolPhoto()` - Perform a photo enrolment (either from an electronic or optical image). The image must be provided as an [`Image`](https://pub.dev/packages/image).
+- `enrolPhoto()` - Perform a photo enrolment (either from an electronic or optical image). The image must be provided as a base64 encoded jpeg represented as a string.
 - `enrolPhotoAndGetVerifyToken()` - A convenience method which first gets an enrolment token, then enrols the photo against that token, and then gets a verify token for the user to iProov against.
 - `validate()` - Validates a token, this is typically called via a backend-to-backend call to ensure that the claim was successful.
 - `invalidate()` - Used to cancel (invalidate) a token. Once a token has been invalidated, it can no longer be used.
