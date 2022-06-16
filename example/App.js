@@ -39,7 +39,7 @@ export default class App extends Component {
     options.ui.floatingPromptEnabled = true
 
     IProov.launch(config.baseUrl, body.token, options, (event) => {
-      switch (event.event) {
+      switch (event.name) {
         case IProov.EVENT_CONNECTING:
           RNProgressHud.showWithStatus('Connecting')
           break

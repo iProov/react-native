@@ -38,4 +38,5 @@ repositories {
 dependencies {
     implementation 'com.iproov.sdk:iproov:7.3.0'
     implementation 'com.facebook.react:react-native:+'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }

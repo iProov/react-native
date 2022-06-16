@@ -50,7 +50,7 @@ function registerDelegateListeners(listener) {
   events.forEach((eventType) => {
     eventEmitter.addListener(eventType, (event) => {
       listener({
-        event: eventType,
+        name: eventType,
         params: event
       })
 

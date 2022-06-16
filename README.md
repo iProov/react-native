@@ -127,7 +127,7 @@ let options = new IProov.Options()
 options.ui.filter = IProov.Options.VIBRANT
 
 IProov.launch('https://eu.rp.secure.iproov.me/api/v2', "< YOUR TOKEN >", options, (event) => {
-  switch(event.event) {
+  switch(event.name) {
 	
   case IProov.CONNECTING_EVENT:
     // The SDK is connecting to the server. You should provide an indeterminate progress indicator
@@ -167,7 +167,7 @@ case IProov.PROCESSING_EVENT:
     // It will be called once, or never.
   
     let token = event.params.token
-    let feedbackCode = event.params.feedback_code
+    let feedbackCode = event.params.feedbackCode
     let reason = event.params.reason
     let frame = event.params.frame // Optional property containing a single Base64 encoded frame
     break

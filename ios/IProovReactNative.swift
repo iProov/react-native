@@ -88,7 +88,7 @@ class IProovReactNative: RCTEventEmitter {
                 self.sendEvent(withName: EventName.failure.rawValue, body: [
                     "token": token,
                     "reason": result.reason,
-                    "feedback_code": result.feedbackCode,
+                    "feedbackCode": result.feedbackCode,
                     "frame": result.frame?.pngData()?.base64EncodedString()
                 ])
             case .cancelled:
