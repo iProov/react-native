@@ -10,6 +10,7 @@
 - [Get started](#get-started)
 - [Options](#options)
 - [Handling errors](#handling-errors)
+- [Localization](#localization)
 - [API Client](#api-client)
 - [Sample code](#sample-code)
 - [Help & support](#help--support)
@@ -187,7 +188,7 @@ case IProov.PROCESSING_EVENT:
 👉 You should now familiarise yourself with the following resources:
 
 -  [iProov Biometrics iOS SDK documentation](https://github.com/iProov/ios)
--  [Android Biometrics Android SDK documentation](https://github.com/iProov/android)
+-  [iProov Biometrics Android SDK documentation](https://github.com/iProov/android)
 
 These repositories provide comprehensive documentation about the available customization options and other important details regarding the SDK usage.
 
@@ -262,6 +263,11 @@ IProov listener error events will contain an `error` string within the events `p
 | `face_detector_error`           |     | ✅       | An error occurred with the face detector.                                                                                        |
 | `invalid_options_error`         |     | ✅       | An error occurred when trying to apply your options.                                                                             |
 
+## Localization
+
+String localization is handled by adding translations to both native compoments, you can do this by following the instructions of the respective platform of the native iProov SDK. 
+[iProov Biometrics iOS SDK localization documentation](https://github.com/iProov/ios#localization)
+[iProov Biometrics Android SDK localization documentation](https://github.com/iProov/android#localization)
 
 ## API Client
 
