@@ -10,14 +10,16 @@
             "type": "reactnativedirect",
             "cwd": "${workspaceFolder}",
             "enableDebug": false,
-            "platform": "ios"
+            "platform": "ios",
+            "target": "device"
         },
         {
             "name": "Debug iOS",
             "request": "launch",
             "type": "reactnativedirect",
             "cwd": "${workspaceFolder}",
-            "platform": "ios"
+            "platform": "ios",
+            "target": "device"
         },
         {
             "name": "Run Android",

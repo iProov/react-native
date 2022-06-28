@@ -10,7 +10,7 @@ import {
 import IProov from 'iproov-react-native'
 import ApiClient, {
   CLAIM_TYPE_ENROL,
-  ASSURANCE_TYPE_LIVENESS
+  ASSURANCE_TYPE_GENUINE_PRESENCE
 } from './ApiClient.js'
 import uuid from 'react-native-uuid'
 import RNProgressHud from 'progress-hud'
@@ -22,7 +22,7 @@ export default class App extends Component {
   launchIProov = async () => {
     RNProgressHud.showWithStatus('Getting token')
     const response = await this.apiClient.getToken(
-      ASSURANCE_TYPE_LIVENESS,
+      ASSURANCE_TYPE_GENUINE_PRESENCE,
       CLAIM_TYPE_ENROL,
       uuid.v4()
     )
