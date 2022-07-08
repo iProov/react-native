@@ -9,7 +9,8 @@
     "android",
     "index.js",
     "ios",
-    "iproov-react-native.podspec"
+    "iproov-react-native.podspec",
+    "LICENSE.md"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
