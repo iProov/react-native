@@ -2,71 +2,70 @@ package com.iproov.sdk
 
 import android.graphics.Bitmap
 import android.util.Base64
+import androidx.core.content.ContextCompat
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactContext
+import com.facebook.react.bridge.WritableMap
 import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.iproov.sdk.core.exception.*
 import java.io.ByteArrayOutputStream
 
-class IProovReactNativeListener(reactContext: ReactContext) : IProov.Listener {
+class IProovReactNativeListener(private val reactContext: ReactContext) : IProovCallbackLauncher.Listener {
 
-    private val eventEmitter: DeviceEventManagerModule.RCTDeviceEventEmitter = reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
+    override fun onConnecting() { emitEvent(EVENT_CONNECTING) }
 
-    override fun onConnecting() = eventEmitter.emit(EVENT_CONNECTING, null)
+    override fun onConnected() { emitEvent(EVENT_CONNECTED) }
 
-    override fun onConnected() = eventEmitter.emit(EVENT_CONNECTED, null)
-
-    override fun onProcessing(progress: Double, message: String) {
+    override fun onProcessing(progress: Double, message: String?) {
         val params = Arguments.createMap().apply {
             putDouble("progress", progress)
             putString("message", message)
         }
 
-        eventEmitter.emit(EVENT_PROCESSING, params)
+        emitEvent(EVENT_PROCESSING, params)
     }
 
-    override fun onSuccess(successResult: IProov.SuccessResult) {
+    override fun onSuccess(result: IProov.SuccessResult) {
         val params = Arguments.createMap()
-        params.putString("token", successResult.token)
-        
-        successResult.frame?.let {
+
+        result.frame?.let {
             params.putString("frame", base64EncodeBitmap(it))
         }
 
-        eventEmitter.emit(EVENT_SUCCESS, params)
-        IProov.unregisterListener(this)
+        emitEvent(EVENT_SUCCESS, params)
     }
 
-    override fun onFailure(failureResult: IProov.FailureResult) {
+    override fun onFailure(result: IProov.FailureResult) {
         val params = Arguments.createMap().apply {
-            putString("token", failureResult.token)
-            putString("feedbackCode", failureResult.feedbackCode)
-            putString("reason", failureResult.reason)
+            putString("feedbackCode", result.reason.feedbackCode)
+            putString("reason", reactContext.getString(result.reason.description))
         }
 
-        failureResult.frame?.let {
+        result.frame?.let {
             params.putString("frame", base64EncodeBitmap(it))
         }
 
-        eventEmitter.emit(EVENT_FAILURE, params)
-        IProov.unregisterListener(this)
+        emitEvent(EVENT_FAILURE, params)
     }
 
-    override fun onCancelled() {
-        eventEmitter.emit(EVENT_CANCELLED, null)
-        IProov.unregisterListener(this)
-    }
+    override fun onCancelled(canceller: IProov.Canceller) {
 
-    override fun onError(e: IProovException) {
-        e.printStackTrace()
         val params = Arguments.createMap().apply {
-            putString("error", toErrorString(e))
-            putString("reason", e.reason)
-            putString("message", e.localizedMessage)
+            putString("canceller", canceller.name)
         }
 
-        eventEmitter.emit(EVENT_ERROR, params)
-        IProov.unregisterListener(this)
+        emitEvent(EVENT_CANCELLED, params)
+    }
+
+    override fun onError(exception: IProovException) {
+        exception.printStackTrace()
+        val params = Arguments.createMap().apply {
+            putString("error", toErrorString(exception))
+            putString("reason", exception.reason)
+            putString("message", exception.localizedMessage)
+        }
+
+        emitEvent(EVENT_ERROR, params)
     }
 
     private fun toErrorString(e: IProovException): String =
@@ -75,7 +74,6 @@ class IProovReactNativeListener(reactContext: ReactContext) : IProov.Listener {
             is NetworkException -> "network_error"
             is CameraPermissionException -> "camera_permission_error"
             is ServerException -> "server_error"
-            is ListenerNotRegisteredException -> "listener_not_registered_error"
             is MultiWindowUnsupportedException -> "multi_window_unsupported_error"
             is CameraException -> "camera_error"
             is FaceDetectorException -> "face_detector_error"
@@ -89,4 +87,9 @@ class IProovReactNativeListener(reactContext: ReactContext) : IProov.Listener {
         val byteArray = byteArrayOutputStream.toByteArray()
         return Base64.encodeToString(byteArray, Base64.NO_WRAP)
     }
+
+    private fun emitEvent(name: String, params: WritableMap? = null) {
+        reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
+        .emit(name, params)
+    }    
 }
