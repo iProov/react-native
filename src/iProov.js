@@ -1,5 +1,5 @@
 import { NativeModules, NativeEventEmitter } from 'react-native'
-import { objectToSnakeCase } from './Utils.js'
+import { objectToSnakeCase, convertColorsToARGB } from './Utils.js'
 const { IProovReactNative } = NativeModules
 export const {
   EVENT_CONNECTING,
@@ -17,8 +17,13 @@ let emitter = null
 
 export function launch(baseUrl, token, options, listener) {
   registerDelegateListeners(listener)
-  const formattedOptions = objectToSnakeCase(options)
-  IProovReactNative.launch(baseUrl, token, JSON.stringify(formattedOptions))
+  const snakeCaseOptions = objectToSnakeCase(options)
+  const snakeCaseOptionsWithARGBColors = convertColorsToARGB(snakeCaseOptions)
+  IProovReactNative.launch(baseUrl, token, JSON.stringify(snakeCaseOptionsWithARGBColors))
+}
+
+export function cancel() {
+  IProovReactNative.cancel()
 }
 
 function getNativeEventEmitterInstance() {
@@ -50,7 +55,7 @@ function registerDelegateListeners(listener) {
   events.forEach((eventType) => {
     eventEmitter.addListener(eventType, (event) => {
       listener({
-        event: eventType,
+        name: eventType,
         params: event
       })
 

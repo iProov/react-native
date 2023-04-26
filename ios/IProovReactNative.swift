@@ -32,7 +32,8 @@ private enum EventName: String, CaseIterable {
 
 @objc(IProovReactNative)
 class IProovReactNative: RCTEventEmitter {
-
+    private var session: Session?
+    
     override class func requiresMainQueueSetup() -> Bool {
         true
     }
@@ -65,10 +66,9 @@ class IProovReactNative: RCTEventEmitter {
             return
         }
 
-        let options = Options.from(json: json)
-
-        IProov.launch(streamingURL: streamingURL, token: token, options: options) { status in
-
+        let options = Options.from(dictionary: json)
+        
+        session = IProov.launch(streamingURL: streamingURL, token: token, options: options) { status in
             switch status {
             case .connecting:
                 self.sendEvent(withName: EventName.connecting.rawValue, body: nil)
@@ -81,18 +81,17 @@ class IProovReactNative: RCTEventEmitter {
                 ])
             case let .success(result):
                 self.sendEvent(withName: EventName.success.rawValue, body: [
-                    "token": result.token,
                     "frame": result.frame?.pngData()?.base64EncodedString()
                 ])
             case let .failure(result):
                 self.sendEvent(withName: EventName.failure.rawValue, body: [
-                    "token": token,
                     "reason": result.reason,
-                    "feedback_code": result.feedbackCode,
                     "frame": result.frame?.pngData()?.base64EncodedString()
                 ])
-            case .cancelled:
-                self.sendEvent(withName: EventName.cancelled.rawValue, body: nil)
+            case let .cancelled(canceller):
+                self.sendEvent(withName: EventName.cancelled.rawValue, body: [
+                    "canceller": canceller.rawValue == 0 ? "user" : "app"
+                ])
             case let .error(error):
                 self.sendEvent(withName: EventName.error.rawValue, body: [
                     "error": error.errorName,
@@ -104,7 +103,12 @@ class IProovReactNative: RCTEventEmitter {
             }
         }
     }
-
+    
+    @objc(cancel)
+    func cancel() {
+        session?.cancel()
+        session = nil
+    }
 }
 
 

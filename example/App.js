@@ -10,7 +10,7 @@ import {
 import IProov from 'iproov-react-native'
 import ApiClient, {
   CLAIM_TYPE_ENROL,
-  ASSURANCE_TYPE_LIVENESS
+  ASSURANCE_TYPE_GENUINE_PRESENCE
 } from './ApiClient.js'
 import uuid from 'react-native-uuid'
 import RNProgressHud from 'progress-hud'
@@ -22,57 +22,54 @@ export default class App extends Component {
   launchIProov = async () => {
     RNProgressHud.showWithStatus('Getting token')
     const response = await this.apiClient.getToken(
-      ASSURANCE_TYPE_LIVENESS,
+      ASSURANCE_TYPE_GENUINE_PRESENCE,
       CLAIM_TYPE_ENROL,
       uuid.v4()
     )
 
     const body = await response.json()
 
+    RNProgressHud.dismiss()
+
     if (!response.ok) {
-      RNProgressHud.dismiss()
       Alert.alert('API Client Error', body.error_description)
       return
     }
 
-    const options = new IProov.Options()
-    options.ui.floatingPromptEnabled = true
-
-    IProov.launch(config.baseUrl, body.token, options, (event) => {
-      switch (event.event) {
+    var options = new IProov.Options()
+    options.enableScreenshots = true
+    
+    IProov.launch('wss://beta.rp.secure.iproov.me/ws', body.token, options, (event) => {
+      switch (event.name) {
         case IProov.EVENT_CONNECTING:
           RNProgressHud.showWithStatus('Connecting')
           break
-
+  
         case IProov.EVENT_CONNECTED:
           RNProgressHud.dismiss()
           break
-
+  
         case IProov.EVENT_PROCESSING:
           RNProgressHud.showProgressWithStatus(
             event.params.progress,
             event.params.message
           )
           break
-
+  
         case IProov.EVENT_CANCELLED:
-          RNProgressHud.dismiss()
-          Alert.alert('Result', 'Cancelled')
+          RNProgressHud.showErrorWithStatus('Cancelled by ' + event.params.canceller)
           break
-
+  
         case IProov.EVENT_FAILURE:
-          RNProgressHud.dismiss()
-          Alert.alert('Failure', event.params.reason)
+          RNProgressHud.showErrorWithStatus('Failed: ' + event.params.reason)
           break
-
+  
         case IProov.EVENT_SUCCESS:
-          RNProgressHud.dismiss()
-          Alert.alert('Success', event.params.token)
+          RNProgressHud.showSuccessWithStatus('Success')
           break
-
+  
         case IProov.EVENT_ERROR:
-          RNProgressHud.dismiss()
-          Alert.alert('Error', event.params.reason)
+          RNProgressHud.showErrorWithStatus('Error: ' + event.params.reason)
           break
       }
     })

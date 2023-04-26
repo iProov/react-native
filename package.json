@@ -1,7 +1,7 @@
 {
   "name": "iproov-react-native",
   "title": "iProov React Native SDK",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "The iProov Biometrics SDK for React Native, providing flexible authentication for identity assurance",
   "main": "index.js",
   "files": [
@@ -9,7 +9,8 @@
     "android",
     "index.js",
     "ios",
-    "iproov-react-native.podspec"
+    "iproov-react-native.podspec",
+    "LICENSE.md"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -32,9 +33,5 @@
   "peerDependencies": {
     "react": ">=16.8.1",
     "react-native": ">=0.60.0-rc.0 <1.0.x"
-  },
-  "devDependencies": {
-    "react": "^16.9.0",
-    "react-native": "^0.61.5"
   }
 }
