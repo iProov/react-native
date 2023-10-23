@@ -7,7 +7,7 @@ private enum EventName: String, CaseIterable {
          processing,
          success,
          failure,
-         cancelled,
+         canceled,
          error
 
     var rawValue: String {
@@ -22,8 +22,8 @@ private enum EventName: String, CaseIterable {
             return "iproov_success"
         case .failure:
             return "iproov_failure"
-        case .cancelled:
-            return "iproov_cancelled"
+        case .canceled:
+            return "iproov_canceled"
         case .error:
             return "iproov_error"
         }
@@ -50,7 +50,7 @@ class IProovReactNative: RCTEventEmitter {
             "EVENT_PROCESSING": EventName.processing.rawValue,
             "EVENT_SUCCESS": EventName.success.rawValue,
             "EVENT_FAILURE": EventName.failure.rawValue,
-            "EVENT_CANCELLED": EventName.cancelled.rawValue,
+            "EVENT_CANCELED": EventName.canceled.rawValue,
             "EVENT_ERROR": EventName.error.rawValue
         ]
   }
@@ -67,8 +67,17 @@ class IProovReactNative: RCTEventEmitter {
         }
 
         let options = Options.from(dictionary: json)
+                
+        guard let streamURL = URL(string: streamingURL) else {
+            self.sendEvent(withName: EventName.error.rawValue, body: [
+                "error": "unexpected_error",
+                "reason": "url problem",
+                "message": "Malformed URL used as baseUrl"
+            ])
+            return
+        }
         
-        session = IProov.launch(streamingURL: streamingURL, token: token, options: options) { status in
+        session = IProov.launch(streamingURL: streamURL, token: token, options: options) { status in
             switch status {
             case .connecting:
                 self.sendEvent(withName: EventName.connecting.rawValue, body: nil)
@@ -88,9 +97,9 @@ class IProovReactNative: RCTEventEmitter {
                     "reason": result.reason,
                     "frame": result.frame?.pngData()?.base64EncodedString()
                 ])
-            case let .cancelled(canceller):
-                self.sendEvent(withName: EventName.cancelled.rawValue, body: [
-                    "canceller": canceller.rawValue == 0 ? "user" : "app"
+            case let .canceled(canceler):
+                self.sendEvent(withName: EventName.canceled.rawValue, body: [
+                    "canceler": canceler.rawValue == 0 ? "user" : "app"
                 ])
             case let .error(error):
                 self.sendEvent(withName: EventName.error.rawValue, body: [
@@ -124,6 +133,10 @@ private extension IProovError {
             return "camera_permission_error"
         case .serverError:
             return "server_error"
+        case .userTimeout:
+            return "user_timeout_error"
+        case .notSupported:
+            return "unsupported_device_error"
         case .unexpectedError:
             fallthrough
         @unknown default:

@@ -7,7 +7,7 @@ export const {
   EVENT_PROCESSING,
   EVENT_SUCCESS,
   EVENT_FAILURE,
-  EVENT_CANCELLED,
+  EVENT_CANCELED,
   EVENT_ERROR
 } = IProovReactNative.getConstants()
 
@@ -41,14 +41,14 @@ function registerDelegateListeners(listener) {
     EVENT_PROCESSING,
     EVENT_SUCCESS,
     EVENT_FAILURE,
-    EVENT_CANCELLED,
+    EVENT_CANCELED,
     EVENT_ERROR
   ]
 
   const terminalEvents = [
     EVENT_SUCCESS,
     EVENT_FAILURE,
-    EVENT_CANCELLED,
+    EVENT_CANCELED,
     EVENT_ERROR
   ]
 
@@ -72,6 +72,6 @@ function removeAllListeners(eventEmitter) {
   eventEmitter.removeAllListeners(EVENT_PROCESSING)
   eventEmitter.removeAllListeners(EVENT_SUCCESS)
   eventEmitter.removeAllListeners(EVENT_FAILURE)
-  eventEmitter.removeAllListeners(EVENT_CANCELLED)
+  eventEmitter.removeAllListeners(EVENT_CANCELED)
   eventEmitter.removeAllListeners(EVENT_ERROR)
 }

@@ -48,13 +48,13 @@ class IProovReactNativeListener(private val reactContext: ReactContext) : IProov
         emitEvent(EVENT_FAILURE, params)
     }
 
-    override fun onCancelled(canceller: IProov.Canceller) {
+    override fun onCanceled(canceler: IProov.Canceler) {
 
         val params = Arguments.createMap().apply {
-            putString("canceller", canceller.name)
+            putString("canceler", canceler.name)
         }
 
-        emitEvent(EVENT_CANCELLED, params)
+        emitEvent(EVENT_CANCELED, params)
     }
 
     override fun onError(exception: IProovException) {
@@ -78,6 +78,7 @@ class IProovReactNativeListener(private val reactContext: ReactContext) : IProov
             is CameraException -> "camera_error"
             is FaceDetectorException -> "face_detector_error"
             is InvalidOptionsException -> "invalid_options_error"
+            is UnsupportedDeviceException -> "unsupported_device_error"
             else -> "unexpected_error"
         }
 

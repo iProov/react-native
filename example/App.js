@@ -17,7 +17,11 @@ import RNProgressHud from 'progress-hud'
 import config from './credentials.js'
 
 export default class App extends Component {
-  apiClient = new ApiClient(config)
+  apiClient = new ApiClient(
+    'https://' + config.baseUrl + '/api/v2/',
+    config.apiKey,
+    config.secret
+  )
 
   launchIProov = async () => {
     RNProgressHud.showWithStatus('Getting token')
@@ -39,7 +43,7 @@ export default class App extends Component {
     var options = new IProov.Options()
     options.enableScreenshots = true
     
-    IProov.launch('wss://beta.rp.secure.iproov.me/ws', body.token, options, (event) => {
+    IProov.launch('wss://' + config.baseUrl + '/ws', body.token, options, (event) => {
       switch (event.name) {
         case IProov.EVENT_CONNECTING:
           RNProgressHud.showWithStatus('Connecting')
@@ -56,8 +60,8 @@ export default class App extends Component {
           )
           break
   
-        case IProov.EVENT_CANCELLED:
-          RNProgressHud.showErrorWithStatus('Cancelled by ' + event.params.canceller)
+        case IProov.EVENT_CANCELED:
+          RNProgressHud.showErrorWithStatus('Canceled by ' + event.params.canceler)
           break
   
         case IProov.EVENT_FAILURE:

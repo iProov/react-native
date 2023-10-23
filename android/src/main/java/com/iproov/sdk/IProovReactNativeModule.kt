@@ -17,7 +17,7 @@ const val EVENT_CONNECTED = "iproov_connected"
 const val EVENT_PROCESSING = "iproov_processing"
 const val EVENT_SUCCESS = "iproov_success"
 const val EVENT_FAILURE = "iproov_failure"
-const val EVENT_CANCELLED = "iproov_cancelled"
+const val EVENT_CANCELED = "iproov_canceled"
 const val EVENT_ERROR = "iproov_error"
 
 class IProovReactNativeModule(private val reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
@@ -45,7 +45,7 @@ class IProovReactNativeModule(private val reactContext: ReactApplicationContext)
         "EVENT_PROCESSING" to EVENT_PROCESSING,
         "EVENT_SUCCESS" to EVENT_SUCCESS,
         "EVENT_FAILURE" to EVENT_FAILURE,
-        "EVENT_CANCELLED" to EVENT_CANCELLED,
+        "EVENT_CANCELED" to EVENT_CANCELED,
         "EVENT_ERROR" to EVENT_ERROR)
 
     override fun getName(): String = "IProovReactNative"

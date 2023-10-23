@@ -1,7 +1,7 @@
 {
   "name": "iproov-react-native",
   "title": "iProov React Native SDK",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "The iProov Biometrics SDK for React Native, providing flexible authentication for identity assurance",
   "main": "index.js",
   "files": [
@@ -9,6 +9,7 @@
     "android",
     "index.js",
     "ios",
+    "src",
     "iproov-react-native.podspec",
     "LICENSE.md"
   ],

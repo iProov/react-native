@@ -23,7 +23,7 @@ The iProov Biometrics React Native SDK wraps iProov's native iOS (Swift) and And
 ### Requirements
 
 - React Native 0.60 and above
-- iOS 11 and above
+- iOS 12 and above
 - Android API Level 21 (Android 5 Lollipop) and above
 
 ## Repository contents
@@ -42,7 +42,7 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 	
 	```json
 	"dependencies": {
-	  "iproov-react-native": "git+ssh://git@github.com:iProov/react-native.git#0.2.0"
+	  "iproov-react-native": "git+ssh://git@github.com:iProov/react-native.git#0.3.0"
 	}
 	```
 
@@ -71,7 +71,7 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 		```ruby
 		pre_install do |installer|
 		  installer.pod_targets.each do |pod|
-		    if !['iProov', 'Starscream'].include?(pod.name)
+		    if !['iProov'].include?(pod.name)
 		      def pod.static_framework?;
 		        true
 		      end
@@ -82,21 +82,6 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 		  end
 		end
 		```
-		
-	3. **Enable module stability** - iProov and its dependencies require `BUILD_LIBRARY_FOR_DISTRIBUTION` to be enabled. Add the following `post_install` step (or add it to your existing `post_install` step if you have one already):
-	
-		```ruby
-		post_install do |installer|
-		  installer.pods_project.targets.each do |target|
-		    if ['iProov', 'Starscream'].include? target.name
-		      target.build_configurations.each do |config|
-		        config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
-		      end
-		    end
-		  end
-		end
-		```
-
 2. In your React Native app `ios` directory, run:
 
 	```sh
@@ -153,13 +138,13 @@ IProov.launch('wss://eu.rp.secure.iproov.me/ws', "< YOUR TOKEN >", options, (eve
 	  let message = event.params.message
 	  break
 	
-	case IProov.EVENT_CANCELLED:
-	  // Either the user cancelled iProov by pressing the Close button at the top or
-	  // the Home button (canceller == USER)
-	  // Or the app cancelled using Session.cancel() (canceller = APP).
+	case IProov.EVENT_CANCELED:
+	  // Either the user canceled iProov by pressing the Close button at the top or
+	  // the Home button (canceler == USER)
+	  // Or the app canceled using Session.cancel() (canceler = APP).
 	  // You should use this to determine the next step in your flow.
 
-	  let canceller = event.params.canceller
+	  let canceler = event.params.canceler
 	  break
 	
 	case IProov.EVENT_FAILURE:
@@ -216,7 +201,7 @@ A summary of the support for the various SDK options in React Native is provided
 | `titleTextColor`                                | `String` (#rgba)                                                    | ✅     | ✅     |
 | `surroundColor`                                 | `String` (#rgba)                                                    | ✅     | ✅     |
 | `font`                                          | `String`                                                            | ✅     | ✅     |
-| `fontPath`  (1)                                 | Unsupported                                                         | ❌     | ❌     |
+| `fontPath`  (*)                                 | Unsupported                                                         | ❌     | ❌     |
 | `logoImage`                                     | `String` (Base64-encoded image)                                     | ✅     | ✅     |
 | `closeButtonImage`                              | `String` (Base64-encoded image)                                     | ✅     | ✅     |
 | `closeButtonTintColor`                          | `String` (#rgba)                                                    | ✅     | ✅     |
@@ -225,20 +210,16 @@ A summary of the support for the various SDK options in React Native is provided
 | `enableScreenshots`                             | `Boolean`                                                           |        | ✅     |
 | `orientation`                                   | `Options.(PORTRAIT\|LANDSCAPE\|REVERSE_PORTRAIT\|REVERSE_LANDSCAPE)`|        | ✅     |
 | `camera`                                        | `Options.(FRONT\|EXTERNAL)`                                         |        | ✅     |
-| `faceDetector`                                  | `Options.(AUTO\|CLASSIC\|ML_KIT\|BLAZEFACE)`                        |        | ✅     |
+| `headerBackgroundColor` | `String` (#rgba)  | ✅ | ✅ |
+| `disableExteriorEffects` | `Boolean` | ✅ | ✅ |
 | **`Options.genuinePresenceAssurance.`**         |                                                                     |        |        |
 | ↳`notReadyOvalStrokeColor `                      | `String` (#rgba)                                                    | ✅     | ✅     |
 | ↳`readyOvalStrokeColor `                         | `String` (#rgba)                                                    | ✅     | ✅     |
-| ↳`maxPitch` (2)                                  | `Number`                                                            | ✅     | ✅     |
-| ↳`maxYaw`  (2)                                   | `Number`                                                            | ✅     | ✅     |
-| ↳`maxRoll` (2)                                   | `Number`                                                            | ✅     |  ✅    |
 | **`Options.livenessAssurance.`**                |                                                                     |        |         |
 | ↳`ovalStrokeColor`                               | `String` (#rgba)                                                    | ✅     | ✅     |
 | ↳`completedOvalStrokeColor`                      | `String` (#rgba)                                                    | ✅     | ✅     |
 
-(1) Custom fonts are not currently supported and will be added in a future version of the React Native SDK.
-
-(2) These options are deprecated and will be removed in a future release.
+(*) Custom fonts are not currently supported and will be added in a future version of the React Native SDK.
 
 ### Filter Options
 
@@ -291,10 +272,15 @@ IProov listener error events will contain an `error` string within the events `p
 | `camera_permission_error`           | ✅   | ✅       | The user disallowed access to the camera when prompted. You should direct the user to re-enable camera access.                   |
 | `server_error`                 | ✅   | ✅       | A server-side error/token invalidation occurred. The associated `message` will contain further information about the error.      |
 | `unexpected_error`        | ✅   | ✅       | An unexpected and unrecoverable error has occurred. These errors should be reported to iProov for further investigation.         |
+| `unsupported_device_error`         |✅   | ✅         | Device is not supported.|
 | `multi_window_unsupported_error` |     | ✅       | The user attempted to iProov in split-screen/multi-screen mode, which is not supported.                                          |
 | `camera_error`                 |     | ✅       | An error occurred acquiring or using the camera. This could happen when a non-phone is used with/without an external/USB camera. |
 | `face_detector_error`           |     | ✅       | An error occurred with the face detector.                                                                                        |
 | `invalid_options_error`         |     | ✅       | An error occurred when trying to apply your options.                                                                             |
+| `user_timeout_error`         |✅   |          | The user has taken too long to complete the claim.|
+
+
+
 
 ## Localization
 

@@ -17,20 +17,16 @@ export class Options {
     promptTextColor = null
     promptBackgroundColor = null
     promptRoundedCorners = null
+    disableExteriorEffects = null
+    headerBackgroundColor = null
     certificates = null
     timeoutSecs = null
     orientation = null
     camera = null
     
-    // Deprecated: Value to be removed in future release
-    faceDetector = null
-
     genuinePresenceAssurance = {
         readyOvalStrokeColor: null,
-        notReadyOvalStrokeColor: null,
-        maxPitch: null,
-        maxYaw: null,
-        maxRoll: null
+        notReadyOvalStrokeColor: null
     }
     livenessAssurance = {
         ovalStrokeColor: null,
@@ -61,23 +57,6 @@ export class Options {
   
     static get EXTERNAL() {
       return 'external'
-    }
-  
-    // options.faceDetector
-    static get AUTO() {
-      return 'auto'
-    }
-  
-    static get CLASSIC() {
-      return 'classic'
-    }
-  
-    static get ML_KIT() {
-      return 'ml_kit'
-    }
-  
-    static get BLAZEFACE() {
-      return 'blazeface'
     }
   
     // options.filter.name
