@@ -1,5 +1,5 @@
 export default config = {
-  baseUrl: 'https://eu.rp.secure.iproov.me/api/v2',
+  baseUrl: 'eu.rp.secure.iproov.me',
   apiKey: '<< API_KEY >>',
   secret: '<< SECRET >>'
 }
