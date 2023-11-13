@@ -22,7 +22,7 @@ The iProov Biometrics React Native SDK wraps iProov's native iOS (Swift) and And
 
 ### Requirements
 
-- React Native 0.60 and above
+- React Native 0.72 and above
 - iOS 12.4 and above
 - Android API Level 21 (Android 5 Lollipop) and above
 

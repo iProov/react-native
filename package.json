@@ -1,7 +1,7 @@
 {
   "name": "iproov-react-native",
   "title": "iProov React Native SDK",
-  "version": "0.3.0",
+  "version": "0.4.0-rc",
   "description": "The iProov Biometrics SDK for React Native, providing flexible authentication for identity assurance",
   "main": "index.js",
   "files": [
@@ -32,8 +32,8 @@
   "licenseFilename": "LICENSE.md",
   "readmeFilename": "README.md",
   "dependencies": {
-    "react": "18.2.0",
-    "react-native": "0.72.4"
+    "react": "^18.0.0",
+    "react-native": "^0.72.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
