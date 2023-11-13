@@ -5,7 +5,8 @@ import {
   View,
   Button,
   Alert,
-  SafeAreaView
+  SafeAreaView,
+  NativeEventEmitter
 } from 'react-native'
 import IProov from 'iproov-react-native'
 import ApiClient, {
@@ -43,7 +44,9 @@ export default class App extends Component {
     var options = new IProov.Options()
     options.enableScreenshots = true
     
-    IProov.launch('wss://' + config.baseUrl + '/ws', body.token, options, (event) => {
+    const eventEmitter = new NativeEventEmitter(IProov.IProovReactNative)
+
+    IProov.launch('wss://' + config.baseUrl + '/ws', body.token, options, eventEmitter, (event) => {
       switch (event.name) {
         case IProov.EVENT_CONNECTING:
           RNProgressHud.showWithStatus('Connecting')

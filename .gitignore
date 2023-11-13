@@ -27,6 +27,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
+ios/.xcode.env.local
 
 # Android/IntelliJ
 #
@@ -36,11 +37,9 @@ build/
 local.properties
 gradle*
 *.iml
-
-# BUCK
-buck-out/
-\.buckd/
+.cxx/
 *.keystore
+!debug.keystore
 
 # VSCode
 .vscode/.react

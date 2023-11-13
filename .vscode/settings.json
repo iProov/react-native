@@ -1,3 +1,7 @@
 {
-    "react-native-tools.projectRoot": "example"
+    "react-native-tools.projectRoot": "example",
+    "cSpell.words": [
+        "iproov",
+        "Proov"
+    ]
 }

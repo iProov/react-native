@@ -23,7 +23,7 @@ The iProov Biometrics React Native SDK wraps iProov's native iOS (Swift) and And
 ### Requirements
 
 - React Native 0.60 and above
-- iOS 12 and above
+- iOS 12.4 and above
 - Android API Level 21 (Android 5 Lollipop) and above
 
 ## Repository contents
@@ -56,33 +56,14 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 
 1. Add an `NSCameraUsageDescription` entry to your app's Info.plist, with the reason why your app requires camera access (e.g. “To iProov you in order to verify your identity.”)
 
-2. You need to make various modifications to your Podfile to support iProov:
-
-	1. **Enable frameworks** - Cocoapods by default builds static libraries rather than frameworks. You should add the following to your Podfile:
+2. You need to **Enable frameworks** - Cocoapods by default builds static libraries rather than frameworks. You should add the following to your Podfile:
 	
-		```ruby
-		use_frameworks!
-		```
-		
-		Please note that [Flipper](https://fbflipper.com/docs/getting-started/react-native/) does not work with `use_frameworks`, so you should remove `use_flipper()` if you have it enabled.
+	```ruby
+	use_frameworks!
+	```
+	Please note that [Flipper](https://fbflipper.com/docs/getting-started/react-native/) does not work with `use_frameworks`, so you should remove it if you have it enabled.
 	
-	2. **Ensure React Native builds static frameworks, except for iProov** - Since `use_frameworks!` will now build everything as frameworks, you now need to explicitly set everything to build as static frameworks except for iProov and its dependencies which are dynamic, so you must add this `pre_install` step (or add it to your existing `pre_install` step if you have one already):
-		
-		```ruby
-		pre_install do |installer|
-		  installer.pod_targets.each do |pod|
-		    if !['iProov'].include?(pod.name)
-		      def pod.static_framework?;
-		        true
-		      end
-		      def pod.build_type;
-		        Pod::BuildType.static_library
-		      end
-		    end
-		  end
-		end
-		```
-2. In your React Native app `ios` directory, run:
+3. In your React Native app `ios` directory, run:
 
 	```sh
 	pod install
@@ -108,6 +89,7 @@ Once you have a valid token (obtained via the React Native API client or your ow
 
 ```javascript
 import IProov from 'iproov-react-native'
+import NativeEventEmitter from 'react-native'
 
 let options = new IProov.Options()
 options.filter = {
@@ -117,7 +99,9 @@ options.filter = {
 	backgroundColor: '#32a852'
 }
 
-IProov.launch('wss://eu.rp.secure.iproov.me/ws', "< YOUR TOKEN >", options, (event) => {
+const eventEmitter = new NativeEventEmitter(IProov.IProovReactNative)
+
+IProov.launch('wss://eu.rp.secure.iproov.me/ws', "< YOUR TOKEN >", options, eventEmitter, (event) => {
 	switch(event.name) {
 	
 	case IProov.EVENT_CONNECTING:
@@ -174,7 +158,7 @@ IProov.launch('wss://eu.rp.secure.iproov.me/ws', "< YOUR TOKEN >", options, (eve
 })
 ```
 
-👉 You should now familiarise yourself with the following resources:
+👉 You should now familiarize yourself with the following resources:
 
 -  [iProov Biometrics iOS SDK documentation](https://github.com/iProov/ios)
 -  [iProov Biometrics Android SDK documentation](https://github.com/iProov/android)

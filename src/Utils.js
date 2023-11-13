@@ -15,6 +15,8 @@ export function objectToSnakeCase(obj) {
       converted[camelToSnakeCase(key)] = value
     }
   }
+  // the certificates were getting converted to a dictionary instead of an array
+  converted['certificates'] = obj['certificates']
   return converted
 }
 

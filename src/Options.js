@@ -20,7 +20,7 @@ export class Options {
     disableExteriorEffects = null
     headerBackgroundColor = null
     certificates = null
-    timeoutSecs = null
+    timeout = null
     orientation = null
     camera = null
     
