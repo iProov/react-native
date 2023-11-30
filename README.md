@@ -18,11 +18,9 @@
 ## Introduction
 The iProov Biometrics React Native SDK wraps iProov's native iOS (Swift) and Android (Java) SDKs behind a JavaScript interface for use from within your React Native iOS or Android app.
 
-> ⚠️ **IMPORTANT:** The iProov Biometrics React Native SDK is currently in preview, which means that there may be missing/broken functionality, and the API is still subject to change. Please contact us to provide your feedback regarding the iProov Biometrics React Native SDK Preview.
-
 ### Requirements
 
-- React Native 0.60 and above
+- React Native 0.72 and above
 - iOS 12.4 and above
 - Android API Level 21 (Android 5 Lollipop) and above
 
@@ -42,7 +40,7 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 	
 	```json
 	"dependencies": {
-	  "iproov-react-native": "git+ssh://git@github.com:iProov/react-native.git#0.3.0"
+	  "@iproov/react-native": "1.0.0"
 	}
 	```
 

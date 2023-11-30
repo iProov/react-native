@@ -15,7 +15,7 @@ PODS:
     - hermes-engine/Pre-built (= 0.72.4)
   - hermes-engine/Pre-built (0.72.4)
   - iProov (11.0.0)
-  - iproov-react-native (0.3.0):
+  - iproov-react-native (0.4.0-rc):
     - iProov (= 11.0.0)
     - React
   - libevent (2.1.12)
@@ -588,7 +588,7 @@ SPEC CHECKSUMS:
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
   hermes-engine: 81191603c4eaa01f5e4ae5737a9efcf64756c7b2
   iProov: d22923b04dd1f78395979aeacd5e7d59e19465f8
-  iproov-react-native: d58fded80ef3d34c29b318db541522b985230e41
+  iproov-react-native: 2167913593b06667d944b81e14ce85a965a5a4b7
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
   RCTRequired: 28469809442eb4eb5528462705f7d852948c8a74

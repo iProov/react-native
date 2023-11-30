@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   NativeEventEmitter
 } from 'react-native'
-import IProov from 'iproov-react-native'
+import IProov from '@iproov/react-native'
 import ApiClient, {
   CLAIM_TYPE_ENROL,
   ASSURANCE_TYPE_GENUINE_PRESENCE
