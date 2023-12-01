@@ -1,5 +1,5 @@
 ![iProov: Flexible authentication for identity assurance](https://github.com/iProov/react-native/raw/main/images/banner.jpg)
-# iProov Biometrics React Native SDK (Preview)
+# iProov Biometrics React Native SDK
 
 ## Table of contents
 
@@ -86,7 +86,7 @@ allprojects {
 Once you have a valid token (obtained via the React Native API client or your own backend-to-backend call), you can `launch()` an iProov capture and handle the callback events as follows:
 
 ```javascript
-import IProov from 'iproov-react-native'
+import IProov from '@iproov/react-native'
 import NativeEventEmitter from 'react-native'
 
 let options = new IProov.Options()
