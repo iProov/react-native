@@ -1,5 +1,5 @@
 ![iProov: Flexible authentication for identity assurance](https://github.com/iProov/react-native/raw/main/images/banner.jpg)
-# iProov Biometrics React Native SDK (Preview)
+# iProov Biometrics React Native SDK
 
 ## Table of contents
 
@@ -18,19 +18,11 @@
 ## Introduction
 The iProov Biometrics React Native SDK wraps iProov's native iOS (Swift) and Android (Java) SDKs behind a JavaScript interface for use from within your React Native iOS or Android app.
 
-> ⚠️ **IMPORTANT:** The iProov Biometrics React Native SDK is currently in preview, which means that there may be missing/broken functionality, and the API is still subject to change. Please contact us to provide your feedback regarding the iProov Biometrics React Native SDK Preview.
-
 ### Requirements
 
-- React Native 0.60 and above
-- iOS 12 and above
+- React Native 0.72 and above
+- iOS 12.4 and above
 - Android API Level 21 (Android 5 Lollipop) and above
-
-## Repository contents
-- **src** - contains the React Native bindings for the SDK
-- **android** - contains the Android-specific bindings
-- **ios** - contains the iOS-specific bindings
-- **example** - a basic React Native example app
 
 ## Registration
 
@@ -42,7 +34,7 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 	
 	```json
 	"dependencies": {
-	  "iproov-react-native": "git+ssh://git@github.com:iProov/react-native.git#0.3.0"
+	  "@iproov/react-native": "1.0.0"
 	}
 	```
 
@@ -56,33 +48,14 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 
 1. Add an `NSCameraUsageDescription` entry to your app's Info.plist, with the reason why your app requires camera access (e.g. “To iProov you in order to verify your identity.”)
 
-2. You need to make various modifications to your Podfile to support iProov:
-
-	1. **Enable frameworks** - Cocoapods by default builds static libraries rather than frameworks. You should add the following to your Podfile:
+2. You need to **Enable frameworks** - Cocoapods by default builds static libraries rather than frameworks. You should add the following to your Podfile:
 	
-		```ruby
-		use_frameworks!
-		```
-		
-		Please note that [Flipper](https://fbflipper.com/docs/getting-started/react-native/) does not work with `use_frameworks`, so you should remove `use_flipper()` if you have it enabled.
+	```ruby
+	use_frameworks!
+	```
+	Please note that [Flipper](https://fbflipper.com/docs/getting-started/react-native/) does not work with `use_frameworks`, so you should remove it if you have it enabled.
 	
-	2. **Ensure React Native builds static frameworks, except for iProov** - Since `use_frameworks!` will now build everything as frameworks, you now need to explicitly set everything to build as static frameworks except for iProov and its dependencies which are dynamic, so you must add this `pre_install` step (or add it to your existing `pre_install` step if you have one already):
-		
-		```ruby
-		pre_install do |installer|
-		  installer.pod_targets.each do |pod|
-		    if !['iProov'].include?(pod.name)
-		      def pod.static_framework?;
-		        true
-		      end
-		      def pod.build_type;
-		        Pod::BuildType.static_library
-		      end
-		    end
-		  end
-		end
-		```
-2. In your React Native app `ios` directory, run:
+3. In your React Native app `ios` directory, run:
 
 	```sh
 	pod install
@@ -107,7 +80,8 @@ allprojects {
 Once you have a valid token (obtained via the React Native API client or your own backend-to-backend call), you can `launch()` an iProov capture and handle the callback events as follows:
 
 ```javascript
-import IProov from 'iproov-react-native'
+import IProov from '@iproov/react-native'
+import NativeEventEmitter from 'react-native'
 
 let options = new IProov.Options()
 options.filter = {
@@ -117,7 +91,9 @@ options.filter = {
 	backgroundColor: '#32a852'
 }
 
-IProov.launch('wss://eu.rp.secure.iproov.me/ws', "< YOUR TOKEN >", options, (event) => {
+const eventEmitter = new NativeEventEmitter(IProov.IProovReactNative)
+
+IProov.launch('wss://eu.rp.secure.iproov.me/ws', "< YOUR TOKEN >", options, eventEmitter, (event) => {
 	switch(event.name) {
 	
 	case IProov.EVENT_CONNECTING:
@@ -174,7 +150,7 @@ IProov.launch('wss://eu.rp.secure.iproov.me/ws', "< YOUR TOKEN >", options, (eve
 })
 ```
 
-👉 You should now familiarise yourself with the following resources:
+👉 You should now familiarize yourself with the following resources:
 
 -  [iProov Biometrics iOS SDK documentation](https://github.com/iProov/ios)
 -  [iProov Biometrics Android SDK documentation](https://github.com/iProov/android)
@@ -292,7 +268,7 @@ String localization is handled by adding translations to both native components,
 
 The React Native API Client provides a convenient wrapper to call iProov's REST API v2 from a React Native app. It is a useful tool to assist with testing, debugging and demos, but should not be used in production mobile apps.
 
-The React Native API client can be found in `ApiClient.js` in the example project.
+The React Native API client can be found in `ApiClient.js`.
 
 To setup your credentials, copy `credentials.example.js` to `credentials.js` and add them to the example project.
 
@@ -332,9 +308,9 @@ You can then launch the iProov SDK with this token.
 
 For a simple iProov experience that is ready to run out-of-the-box, check out the React Native example project which also makes use of the React Native API Client.
 
-In the example app folder, copy the `credentials.example.js` file to `credentials.js` and add your credentials obtained from the [iProov portal](https://portal.iproov.com/).
+Copy the `credentials.example.js` file to `credentials.js` and add your credentials obtained from the [iProov portal](https://portal.iproov.com/).
 
-Once you have completed the [installation](#installation) instructions, to run the example app, you should run the following commands from the example project directory:
+Once you have completed the [installation](#installation) instructions, to run the example app, you should run the following commands:
 
 ```sh
 npx react-native run-android		# Run on Android
