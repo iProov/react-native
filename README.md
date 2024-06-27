@@ -34,7 +34,7 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 	
 	```json
 	"dependencies": {
-	  "@iproov/react-native": "1.0.1"
+	  "@iproov/react-native": "1.0.2"
 	}
 	```
 
