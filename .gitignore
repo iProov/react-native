@@ -62,3 +62,11 @@ buck-out/
 
 # API Client credetials
 credentials.js
+
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
