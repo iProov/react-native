@@ -34,7 +34,7 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 	
 	```json
 	"dependencies": {
-	  "@iproov/react-native": "2.0.2"
+	  "@iproov/react-native": "2.1.0"
 	}
 	```
 
@@ -191,6 +191,9 @@ A summary of the support for the various SDK options in React Native is provided
 | **`Options.genuinePresenceAssurance.`**         |                                                                     |        |        |
 | ↳`notReadyOvalStrokeColor `                      | `String` (#rgba)                                                    | ✅     | ✅     |
 | ↳`readyOvalStrokeColor `                         | `String` (#rgba)                                                    | ✅     | ✅     |
+| ↳`scanningPrompts `                         	| `Boolean`                                                    | ✅     | ✅     |
+| ↳`controlYPosition `                         | `Boolean`                                                    | ✅     | ✅     |
+| ↳`controlXPosition `                         | `Boolean`                                                    | ✅     | ✅     |
 | **`Options.livenessAssurance.`**                |                                                                     |        |         |
 | ↳`ovalStrokeColor`                               | `String` (#rgba)                                                    | ✅     | ✅     |
 | ↳`completedOvalStrokeColor`                      | `String` (#rgba)                                                    | ✅     | ✅     |
