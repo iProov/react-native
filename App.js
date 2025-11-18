@@ -11,7 +11,8 @@ import {
 import IProov from '@iproov/react-native'
 import ApiClient, {
   CLAIM_TYPE_ENROL,
-  ASSURANCE_TYPE_GENUINE_PRESENCE
+  ASSURANCE_TYPE_GENUINE_PRESENCE,
+  ASSURANCE_TYPE_LIVENESS
 } from './ApiClient.js'
 import uuid from 'react-native-uuid'
 import RNProgressHud from 'progress-hud'
@@ -27,7 +28,7 @@ export default class App extends Component {
   launchIProov = async () => {
     RNProgressHud.showWithStatus('Getting token')
     const response = await this.apiClient.getToken(
-      ASSURANCE_TYPE_GENUINE_PRESENCE,
+      ASSURANCE_TYPE_LIVENESS,
       CLAIM_TYPE_ENROL,
       uuid.v4()
     )
@@ -68,7 +69,23 @@ export default class App extends Component {
           break
   
         case IProov.EVENT_FAILURE:
-          RNProgressHud.showErrorWithStatus('Failed: ' + event.params.reason)
+          // Log all reasons with their feedback codes
+          if (event.params.reasons && Array.isArray(event.params.reasons)) {
+            console.log('Failure reasons:')
+            event.params.reasons.forEach((reasonObj, index) => {
+              console.log(`  ${index + 1}. Feedback Code: ${reasonObj.feedbackCode}, Reason: ${reasonObj.description}`)
+            })
+            
+            // Show first reason or summary
+            const firstReason = event.params.reasons[0]
+            const message = event.params.reasons.length > 1
+              ? `Failed: ${firstReason.description} (+ ${event.params.reasons.length - 1} more)`
+              : `Failed: ${firstReason.description}`
+            
+            RNProgressHud.showErrorWithStatus(message)
+          } else {
+            RNProgressHud.showErrorWithStatus('Failed: Unknown error')
+          }
           break
   
         case IProov.EVENT_SUCCESS:

@@ -21,7 +21,7 @@ The iProov Biometrics React Native SDK wraps iProov's native iOS (Swift) and And
 ### Requirements
 
 - React Native 0.73 and above
-- iOS 13.0 and above
+- iOS 15.0 and above
 - Android API Level 26 (Android 8 Oreo) and above
 
 ## Registration
@@ -34,7 +34,7 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 	
 	```json
 	"dependencies": {
-	  "@iproov/react-native": "2.1.0"
+	  "@iproov/react-native": "3.0.0"
 	}
 	```
 
@@ -125,10 +125,19 @@ IProov.launch('wss://eu.rp.secure.iproov.me/ws', "< YOUR TOKEN >", options, even
 	
 	case IProov.EVENT_FAILURE:
 	  // The user was not successfully verified/enrolled, as their identity could not be verified,
-	  // or there was another issue with their verification/enrollment. A reason (as a string)
-	  // is provided as to why the claim failed, along with a feedback code from the back-end.
-  
-	  let reason = event.params.reason
+	  // or there was another issue with their verification/enrollment. Reasons are provided
+	  // as to why the claim failed, each one having a feedback code and description from the back-end.
+
+      let failureReasons = event.params.reasons
+
+      let feedbackCodes = failureReasons.map(reason => {
+        return reason.feedbackCode;
+      });
+
+      let descriptions = failureReasons.map(reason => {
+        return reason.description;
+      });
+	  
 	  let frame = event.params.frame // Optional property containing a single Base64 encoded frame
 	  break
 	
@@ -185,7 +194,6 @@ A summary of the support for the various SDK options in React Native is provided
 | `timeout`                                       | `Number` (int)                                                      | ✅     | ✅     |
 | `enableScreenshots`                             | `Boolean`                                                           |        | ✅     |
 | `orientation`                                   | `Options.(PORTRAIT\|LANDSCAPE\|REVERSE_PORTRAIT\|REVERSE_LANDSCAPE)`|        | ✅     |
-| `camera`                                        | `Options.(FRONT\|EXTERNAL)`                                         |        | ✅     |
 | `headerBackgroundColor` | `String` (#rgba)  | ✅ | ✅ |
 | `disableExteriorEffects` | `Boolean` | ✅ | ✅ |
 | **`Options.genuinePresenceAssurance.`**         |                                                                     |        |        |
