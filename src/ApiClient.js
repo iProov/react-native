@@ -1,4 +1,4 @@
-import RNFetchBlob from 'rn-fetch-blob'
+import ReactNativeBlobUtil from 'react-native-blob-util'
 
 // THIS CODE IS PROVIDED FOR DEMO PURPOSES ONLY AND SHOULD NOT BE USED IN
 // PRODUCTION! YOU SHOULD NEVER EMBED YOUR CREDENTIALS IN A PUBLIC APP RELEASE!
@@ -53,7 +53,7 @@ export default class ApiClient {
       { name: 'image', filename: 'image.jpeg', type: 'image/jpeg', data: image }
     ]
 
-    return await RNFetchBlob.fetch(
+    return await ReactNativeBlobUtil.fetch(
       'POST',
       `${this.baseUrl}claim/enrol/image`,
       {
@@ -94,9 +94,8 @@ export default class ApiClient {
         secret: this.secret,
         user_id: userId,
         token: token,
-        assurance_type: assuranceType,
         ip: '127.0.0.1',
-        client: 'android'
+        client: 'react-native'
       })
     })
   }

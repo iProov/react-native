@@ -4,7 +4,7 @@
 ## Table of contents
 
 - [Introduction](#introduction)
-- [Repository contents](#repository-contents)
+- [Upgrading from 3.x](#upgrading-from-3x)
 - [Registration](#registration)
 - [Installation](#installation)
 - [Get started](#get-started)
@@ -16,13 +16,24 @@
 - [Help & support](#help--support)
 
 ## Introduction
-The iProov Biometrics React Native SDK wraps iProov's native iOS (Swift) and Android (Java) SDKs behind a JavaScript interface for use from within your React Native iOS or Android app.
+The iProov Biometrics React Native SDK wraps iProov's native iOS (Swift) and Android (Kotlin) SDKs behind a JavaScript interface for use from within your React Native iOS or Android app.
 
 ### Requirements
 
-- React Native 0.73 and above
-- iOS 15.0 and above
-- Android API Level 26 (Android 8 Oreo) and above
+- React Native 0.82 and above
+- iOS 16.0 and above
+- Android API Level 29 (Android 10) and above
+
+## Upgrading from 3.x
+
+This version uses the iProov iOS SDK 14.0.0 and Android SDK 12.0.0. To upgrade an app from `@iproov/react-native` 3.x to 4.x:
+
+- Stop reading `event.params.frame` in `EVENT_SUCCESS` and `EVENT_FAILURE`. The SDKs no longer return a frame of the user.
+- Remove `orientation` from your `Options`. `Options.PORTRAIT`, `Options.LANDSCAPE`, `Options.REVERSE_PORTRAIT` and `Options.REVERSE_LANDSCAPE` are removed.
+- Compare `canceler` in `EVENT_CANCELED` with `'user'` and `'integration'`. iOS used to send `'app'`, and Android used to send `'USER'` and `'INTEGRATION'`.
+- Set your iOS app's minimum to iOS 16 or later.
+- On Android, we are phasing out support for <Android 10, so even though you can still set `minSdk` to 26, users on devices below Android 10 will be blocked. If you are affected, please contact support.
+- Handle the new `unsupported_os_version_error` and `unsupported_sdk_version_error`. See [Handling errors](#handling-errors).
 
 ## Registration
 
@@ -34,7 +45,7 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 	
 	```json
 	"dependencies": {
-	  "@iproov/react-native": "3.0.0"
+	  "@iproov/react-native": "4.0.0"
 	}
 	```
 
@@ -48,21 +59,12 @@ You can obtain API credentials by registering on the [iProov Partner Portal](htt
 
 1. Add an `NSCameraUsageDescription` entry to your app's Info.plist, with the reason why your app requires camera access (e.g. “To iProov you in order to verify your identity.”)
 
-2. You need to **Enable frameworks** - Cocoapods by default builds static libraries rather than frameworks. You should add the following to your Podfile:
-	
-	```ruby
-	use_frameworks!
-	```
-	Please note that [Flipper](https://fbflipper.com/docs/getting-started/react-native/) does not work with `use_frameworks`, so you should remove it if you have it enabled.
-	
-3. In your React Native app `ios` directory, run:
+2. In your React Native app `ios` directory, run:
 
 	```sh
 	pod install
-	```	
-		
-	This will install all Pods and apply the above workarounds.
-	
+	```
+
 ### Android installation
 
 You must add the iProov repository URL to your `repositories` block inside the `allprojects` block in your build.gradle file:
@@ -115,9 +117,9 @@ IProov.launch('wss://eu.rp.secure.iproov.me/ws', "< YOUR TOKEN >", options, even
 	  break
 	
 	case IProov.EVENT_CANCELED:
-	  // Either the user canceled iProov by pressing the Close button at the top or
-	  // the Home button (canceler == USER)
-	  // Or the app canceled using Session.cancel() (canceler = APP).
+	  // Either the user canceled iProov (by pressing the close or back button, or sending
+	  // the app to the background), in which case canceler == 'user',
+	  // or the app canceled by calling IProov.cancel(), in which case canceler == 'integration'.
 	  // You should use this to determine the next step in your flow.
 
 	  let canceler = event.params.canceler
@@ -127,7 +129,7 @@ IProov.launch('wss://eu.rp.secure.iproov.me/ws', "< YOUR TOKEN >", options, even
 	  // The user was not successfully verified/enrolled, as their identity could not be verified,
 	  // or there was another issue with their verification/enrollment. Reasons are provided
 	  // as to why the claim failed, each one having a feedback code and description from the back-end.
-
+  
       let failureReasons = event.params.reasons
 
       let feedbackCodes = failureReasons.map(reason => {
@@ -137,14 +139,12 @@ IProov.launch('wss://eu.rp.secure.iproov.me/ws', "< YOUR TOKEN >", options, even
       let descriptions = failureReasons.map(reason => {
         return reason.description;
       });
-	  
-	  let frame = event.params.frame // Optional property containing a single Base64 encoded frame
+
 	  break
 	
 	case IProov.EVENT_SUCCESS:
 	  // The user was successfully verified/enrolled and the token has been validated.
    
-	  let frame = event.params.frame // Optional property containing a single Base64 encoded frame
 	  break
 
 	case IProov.EVENT_ERROR:
@@ -158,6 +158,16 @@ IProov.launch('wss://eu.rp.secure.iproov.me/ws', "< YOUR TOKEN >", options, even
 	}
 })
 ```
+
+### Canceling a session
+
+The user can cancel at any time, by pressing the close or back button or by sending the app to the background. Your app can also cancel the current session itself:
+
+```javascript
+IProov.cancel()
+```
+
+You will then receive `EVENT_CANCELED` with `canceler == 'integration'`.
 
 👉 You should now familiarize yourself with the following resources:
 
@@ -185,15 +195,13 @@ A summary of the support for the various SDK options in React Native is provided
 | `title`                                         | `String`                                                            | ✅     | ✅     |
 | `titleTextColor`                                | `String` (#rgba)                                                    | ✅     | ✅     |
 | `surroundColor`                                 | `String` (#rgba)                                                    | ✅     | ✅     |
-| `font`                                          | `String`                                                            | ✅     | ✅     |
-| `fontPath`  (*)                                 | Unsupported                                                         | ❌     | ❌     |
+| `font`  (*)                                     | `String`                                                            | ✅     | ✅     |
 | `logoImage`                                     | `String` (Base64-encoded image)                                     | ✅     | ✅     |
 | `closeButtonImage`                              | `String` (Base64-encoded image)                                     | ✅     | ✅     |
 | `closeButtonTintColor`                          | `String` (#rgba)                                                    | ✅     | ✅     |
 | `certificates`                                  | `String[]` (base 64 encoded string in DER format)                   | ✅     | ✅     |
 | `timeout`                                       | `Number` (int)                                                      | ✅     | ✅     |
 | `enableScreenshots`                             | `Boolean`                                                           |        | ✅     |
-| `orientation`                                   | `Options.(PORTRAIT\|LANDSCAPE\|REVERSE_PORTRAIT\|REVERSE_LANDSCAPE)`|        | ✅     |
 | `headerBackgroundColor` | `String` (#rgba)  | ✅ | ✅ |
 | `disableExteriorEffects` | `Boolean` | ✅ | ✅ |
 | **`Options.genuinePresenceAssurance.`**         |                                                                     |        |        |
@@ -202,11 +210,15 @@ A summary of the support for the various SDK options in React Native is provided
 | ↳`scanningPrompts `                         	| `Boolean`                                                    | ✅     | ✅     |
 | ↳`controlYPosition `                         | `Boolean`                                                    | ✅     | ✅     |
 | ↳`controlXPosition `                         | `Boolean`                                                    | ✅     | ✅     |
+| **`Options.genuinePresenceAssurance.accessibility.`** |                                                         |        |        |
+| ↳`isColorEnabled`                            | `Boolean`                                                    | ✅     | ✅     |
+| ↳`isSoundEnabled`                            | `Boolean`                                                    | ✅     | ✅     |
+| ↳`isVibrationEnabled`                        | `Boolean`                                                    | ✅     | ✅     |
 | **`Options.livenessAssurance.`**                |                                                                     |        |         |
 | ↳`ovalStrokeColor`                               | `String` (#rgba)                                                    | ✅     | ✅     |
 | ↳`completedOvalStrokeColor`                      | `String` (#rgba)                                                    | ✅     | ✅     |
 
-(*) Custom fonts are not currently supported and will be added in a future version of the React Native SDK.
+(*) `font` must name a font available to your app. On iOS this can be a system font or one bundled with your app. On Android it must be bundled with your app, as a font resource in `res/font` or a file in the app's assets.
 
 ### Filter Options
 
@@ -260,6 +272,9 @@ IProov listener error events will contain an `error` string within the events `p
 | `server_error`                 | ✅   | ✅       | A server-side error/token invalidation occurred. The associated `message` will contain further information about the error.      |
 | `unexpected_error`        | ✅   | ✅       | An unexpected and unrecoverable error has occurred. These errors should be reported to iProov for further investigation.         |
 | `unsupported_device_error`         |✅   | ✅         | Device is not supported.|
+| `unsupported_os_version_error`     |✅   | ✅         | The device's OS version is not supported.|
+| `unsupported_sdk_version_error`    |✅   | ✅         | This version of the iProov SDK is not supported.|
+| `consent_required_error`           |✅   | ✅         | The user has not granted consent, which is required to use iProov.|
 | `multi_window_unsupported_error` |     | ✅       | The user attempted to iProov in split-screen/multi-screen mode, which is not supported.                                          |
 | `camera_error`                 |     | ✅       | An error occurred acquiring or using the camera. This could happen when a non-phone is used with/without an external/USB camera. |
 | `face_detector_error`           |     | ✅       | An error occurred with the face detector.                                                                                        |
@@ -279,9 +294,9 @@ String localization is handled by adding translations to both native components,
 
 The React Native API Client provides a convenient wrapper to call iProov's REST API v2 from a React Native app. It is a useful tool to assist with testing, debugging and demos, but should not be used in production mobile apps.
 
-The React Native API client can be found in `ApiClient.js`.
+The React Native API client can be found in `src/ApiClient.js`.
 
-To setup your credentials, copy `credentials.example.js` to `credentials.js` and add them to the example project.
+To setup your credentials, copy `src/credentials.example.js` to `src/credentials.js` and add them.
 
 > ⚠️ **SECURITY NOTICE:** Use of the React Native API Client requires providing it with your API secret. **You should never embed your API secret within a production app.**
 
@@ -319,7 +334,7 @@ You can then launch the iProov SDK with this token.
 
 For a simple iProov experience that is ready to run out-of-the-box, check out the React Native example project which also makes use of the React Native API Client.
 
-Copy the `credentials.example.js` file to `credentials.js` and add your credentials obtained from the [iProov portal](https://portal.iproov.com/).
+Copy the `src/credentials.example.js` file to `src/credentials.js` and add your credentials obtained from the [iProov portal](https://portal.iproov.com/).
 
 Once you have completed the [installation](#installation) instructions, to run the example app, you should run the following commands:
 
